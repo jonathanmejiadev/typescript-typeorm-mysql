@@ -32,9 +32,13 @@ app.use(errorHandler404);
 app.use(errorHandler);
 
 const startApp = async () => {
-    await createConnection();
-    app.listen(PORT, () => {
-        console.log(`Connected on http://localhost:${PORT}`);
-    });
+    try {
+        await createConnection();
+        app.listen(PORT, () => {
+            console.log(`Connected on http://localhost:${PORT}`);
+        });
+    } catch (err) {
+        console.log(`Connection error ${err.message}`);
+    }
 }
 startApp();
