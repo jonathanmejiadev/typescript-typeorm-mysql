@@ -8,6 +8,7 @@ export const checkUsernameEmailExists = async (req: Request, res: Response, next
         const usernameTakenRes = User.findOne({ username: username }, { select: ['username'] });
         const emailTakenRes = User.findOne({ email: email }, { select: ['email'] });
         const [usernameTaken, emailTaken] = await Promise.all([usernameTakenRes, emailTakenRes]);
+        if (usernameTaken && emailTaken) throw new Conflict('Username and Email already taken');
         if (usernameTaken) throw new Conflict('Username already taken');
         if (emailTaken) throw new Conflict('Email already exists');
         return next();
