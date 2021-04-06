@@ -1,4 +1,4 @@
-# TypeScript TypeORM MySQL
+# API REST - TypeScript TypeORM MySQL
 
 NodeJs TypeScript API REST using TypeORM with MySQL for User Authentication with jwt,passport,roles and validations.
 
