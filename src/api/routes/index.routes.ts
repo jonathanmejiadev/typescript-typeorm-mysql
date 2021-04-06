@@ -3,9 +3,9 @@ import authRouter from './auth.routes';
 import productsRouter from './product.routes';
 import { AuthGuard, AuthErrorHandler } from '../../middlewares';
 
-const router = Router();
+const indexRouter = Router();
 
-router.use('/auth', authRouter);
-router.use('/products', [AuthGuard, AuthErrorHandler], productsRouter);
+indexRouter.use('/auth', authRouter);
+indexRouter.use('/products', [AuthGuard, AuthErrorHandler], productsRouter);
 
-export default router;
+export default indexRouter;
