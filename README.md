@@ -1,6 +1,6 @@
 # TypeScript TypeORM MySQL
 
-NodeJs TypeScript Backend Project using TypeORM with MySQL for user authentication and chat crud, using jsonwebtoken and validations.
+NodeJs TypeScript API REST using TypeORM with MySQL for User Authentication with jwt,passport,roles and validations.
 
 ## Getting Started 🚀
 
