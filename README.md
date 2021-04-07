@@ -24,11 +24,23 @@ These instructions will get you a copy of the project up and running on your loc
   npm run dev
   ```
 
-## Swagger documentation
+## Swagger API Documentation
 
 Running on `http://localhost:3000/api-docs`
 
-![swagger](swagger.png)
+## Routes and enpoints
+
+### Auth
+
+![auth](doc/images/auth.png)
+
+### Products
+
+![products](doc/images/products.png)
+
+### Models
+
+![models](doc/images/models.png)
 
 ## Dependencies 🛠️
 
@@ -43,6 +55,8 @@ Running on `http://localhost:3000/api-docs`
 - [yup](https://www.npmjs.com/package/yup) - Yup is a JavaScript schema builder for value parsing and validation.
 - [helmet](https://www.npmjs.com/package/helmet) - Helps you secure your Express apps by setting various HTTP headers.
 - [http-errors](https://www.npmjs.com/package/@curveball/http-errors) - This package contains a list of standard HTTP exceptions for Typescript.
+- [swagger-jsdoc](https://www.npmjs.com/package/swagger-jsdoc) - reads your JSDoc-annotated source code and generates an OpenAPI (Swagger) specification
+- [swagger-ui-express](https://www.npmjs.com/package/swagger-ui-express) - Allows you to serve auto-generated swagger-ui generated API docs from express, based on a swagger.json file.
 
 ## Contact
 
