@@ -8,14 +8,19 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Installation 🔧
 
-- Clone the repo
-  ```sh
-  git clone https://github.com/jonathanmejia-ar/typescript-typeorm-mysql.git
-  ```
-- Install NPM packages
-  ```sh
-  npm install
-  ```
+1. Clone the repo
+
+```sh
+git clone https://github.com/jonathanmejia-ar/typescript-typeorm-mysql.git
+```
+
+2. Install NPM packages
+
+```sh
+npm install
+```
+
+3. Read `env.example` and create a `.env` file with your environment variables.
 
 ### Run app 💻
 
@@ -26,7 +31,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ## Swagger API Documentation
 
-Running on `http://localhost:3000/api-docs`
+Running by default in `http://localhost:3000/api-docs`
 
 ## Routes and enpoints
 
