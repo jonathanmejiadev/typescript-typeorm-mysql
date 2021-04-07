@@ -37,15 +37,15 @@ Running by default in `http://localhost:3000/api-docs`
 
 ### Auth
 
-![auth](doc/images/auth.png)
+![auth](docs/images/auth.png)
 
 ### Products
 
-![products](doc/images/products.png)
+![products](docs/images/products.png)
 
 ### Models
 
-![models](doc/images/models.png)
+![models](docs/images/models.png)
 
 ## Dependencies 🛠️
 
