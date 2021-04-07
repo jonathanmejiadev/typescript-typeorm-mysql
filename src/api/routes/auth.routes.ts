@@ -70,7 +70,7 @@ authRouter.post('/login', authCtrl.login);
  * /auth/profile:
  *  get:
  *      tags: [Auth]
- *      summary: Profile user
+ *      summary: User profile
  *      produces:
  *          - "application/json"
  *      description: Use to get current user profile (needs to be authenticated)
