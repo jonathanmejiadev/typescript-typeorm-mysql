@@ -26,7 +26,7 @@ const productRouter = Router();
  *           - in: header
  *             name: Authorization
  *             type: string
- *             description: Bearer Access Token 
+ *             description: Bearer + Access Token 
  *             required: true
  *      responses:
  *          '200':
@@ -51,7 +51,7 @@ productRouter.get('/all', productCtrl.allProducts);
  *           - in: header
  *             name: Authorization
  *             type: string
- *             description: Bearer Access Token  
+ *             description: Bearer + Access Token  
  *             required: true
  *      responses:
  *          '200':
@@ -76,7 +76,7 @@ productRouter.get('/', isModerator, productCtrl.getProducts);
  *          - in: header
  *            name: Authorization
  *            type: string
- *            description: Bearer Access Token   
+ *            description: Bearer + Access Token   
  *            required: true
  *          - in: body
  *            name: product
@@ -109,7 +109,7 @@ productRouter.post('/', [isModerator, productValidationMw], productCtrl.createPr
  *          - in: header
  *            name: Authorization
  *            type: string
- *            description: Bearer Access Token   
+ *            description: Bearer + Access Token   
  *            required: true
  *      responses:
  *          '200':
@@ -138,7 +138,7 @@ productRouter.get('/:id', isModerator, productCtrl.getProduct);
  *          - in: header
  *            name: Authorization
  *            type: string
- *            description: Bearer Access Token
+ *            description: Bearer + Access Token
  *            required: true
  *          - in: body
  *            name: product
@@ -171,7 +171,7 @@ productRouter.put('/:id', [isModerator, productValidationMw], productCtrl.update
  *          - in: header
  *            name: Authorization
  *            type: string
- *            description: Bearer Access Token 
+ *            description: Bearer + Access Token 
  *            required: true
  *      responses:
  *          '200':

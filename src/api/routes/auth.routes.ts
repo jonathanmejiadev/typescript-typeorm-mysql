@@ -78,7 +78,7 @@ authRouter.post('/login', authCtrl.login);
  *           - in: header
  *             name: Authorization
  *             type: string
- *             description: Bearer Access Token 
+ *             description: Bearer + Access Token 
  *             required: true
  *      responses:
  *          '200':
@@ -103,7 +103,7 @@ authRouter.get('/profile', [AuthGuard, AuthErrorHandler], authCtrl.profile);
  *           - in: header
  *             name: Authorization
  *             type: string
- *             description: Bearer Access Token  
+ *             description: Bearer + Access Token  
  *             required: true      
  *      responses:
  *          '200':
