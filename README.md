@@ -17,12 +17,18 @@ These instructions will get you a copy of the project up and running on your loc
   npm install
   ```
 
-### Run proyect 💻
+### Run app 💻
 
 - Start local server
   ```sh
   npm run dev
   ```
+
+## Swagger documentation
+
+Running on `http://localhost:3000/api-docs`
+
+![swagger](swagger.png)
 
 ## Dependencies 🛠️
 
