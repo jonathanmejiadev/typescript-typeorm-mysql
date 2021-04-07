@@ -3,17 +3,35 @@ import dotenv from 'dotenv';
 dotenv.config();
 import express from 'express';
 import cors from 'cors';
-import morgan from 'morgan';
-import config from './config';
-import helmet from 'helmet';
-import passport from 'passport'
-import passportMiddleware from './middlewares/passport';
 import { createConnection } from 'typeorm';
+import morgan from 'morgan';
+import helmet from 'helmet';
+import passport from 'passport';
+import swaggerJsDoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
+import config from './config';
+import passportMiddleware from './middlewares/passport';
 import { errorHandler, errorHandler404 } from './middlewares/error';
 import indexRoutes from './api/routes/index.routes';
 
 const app = express();
 const PORT = config.PORT || 3000;
+
+const swaggerOptions: any = {
+    swaggerDefinition: {
+        info: {
+            title: 'API REST TypeORM MySQL',
+            description: 'User auth & products crud',
+            contact: {
+                name: 'Jonathan Mejia'
+            },
+            servers: ['http://localhost:3000']
+        }
+    },
+    apis: ['src/api/routes/*.ts']
+};
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
 //middlewares
 app.use(cors());
@@ -21,8 +39,10 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(helmet());
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use(passport.initialize());
 passport.use(passportMiddleware);
+
 
 //routes
 app.use(indexRoutes);
@@ -34,6 +54,7 @@ app.use(errorHandler);
 const startApp = async () => {
     try {
         await createConnection();
+        console.log(`Connected to MySQL database`);
         app.listen(PORT, () => {
             console.log(`Connected on http://localhost:${PORT}`);
         });
