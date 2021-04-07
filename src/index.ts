@@ -13,23 +13,10 @@ import config from './config';
 import passportMiddleware from './middlewares/passport';
 import { errorHandler, errorHandler404 } from './middlewares/error';
 import indexRoutes from './api/routes/index.routes';
+import { swaggerOptions } from './helpers/swaggerOptions';
 
 const app = express();
 const PORT = config.PORT || 3000;
-
-const swaggerOptions: any = {
-    swaggerDefinition: {
-        info: {
-            title: 'API REST TypeORM MySQL',
-            description: 'User auth & products crud',
-            contact: {
-                name: 'Jonathan Mejia'
-            },
-            servers: ['http://localhost:3000']
-        }
-    },
-    apis: ['src/api/routes/*.ts']
-};
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
