@@ -21,23 +21,10 @@ const authRouter = Router();
  *          - "application/json"
  *      description: Use to register a user
  *      parameters: 
- *          - name: username
- *            in: formData
- *            required: true
- *            type: string
- *          - name: email
- *            in: formData
- *            required: true
- *            type: string
- *          - name: password
- *            in: formData
- *            required: true
- *            type: string
- *          - name: role
- *            in: formData
- *            required: true
- *            type: string
- *            description: USER, MODE or ADMIN
+ *          - in: body
+ *            name: user
+ *            schema:
+ *              $ref: '#/definitions/User'
  *      responses:
  *          '201':
  *              description: OK
@@ -91,6 +78,7 @@ authRouter.post('/login', authCtrl.login);
  *           - in: header
  *             name: Authorization
  *             type: string
+ *             description: Bearer Access Token 
  *             required: true
  *      responses:
  *          '200':
@@ -111,6 +99,12 @@ authRouter.get('/profile', [AuthGuard, AuthErrorHandler], authCtrl.profile);
  *      produces:
  *          - "application/json"
  *      description: Use to delete current user account (needs to be authenticated)
+ *      parameters:
+ *           - in: header
+ *             name: Authorization
+ *             type: string
+ *             description: Bearer Access Token  
+ *             required: true      
  *      responses:
  *          '200':
  *              description: OK.
@@ -118,5 +112,34 @@ authRouter.get('/profile', [AuthGuard, AuthErrorHandler], authCtrl.profile);
  *              description: Server internal error.
  */
 authRouter.delete('/deleteAccount', [AuthGuard, AuthErrorHandler], authCtrl.deleteAccount);
+
+/**
+ * @swagger
+ * definitions:
+ *  User:
+ *   properties:
+ *     username:
+ *       type: string
+ *     email:
+ *       type: string
+ *     password:
+ *       type: string
+ *     roles:
+ *       type: array  
+ *       description: USER, MOD and/or ADMIN
+ *       items:
+ *          type: string
+ *   example:
+ *      username: fakeuser
+ *      email: fake@email.com
+ *      password: fakepassword
+ *      roles: ["ADMIN"]
+ *   # Both properties are required
+ *   required:  
+ *     - username
+ *     - email
+ *     - password
+ *     - roles 
+ */
 
 export default authRouter;

@@ -11,19 +11,22 @@ const productRouter = Router();
  *   description: Products CRUD
  */
 
+
+
 /**
  * @swagger
  * /products/all:
  *  get:
  *      tags: [Products]
- *      summary: Get all users products
+ *      summary: All products
  *      produces:
  *          - "application/json"
- *      description: Use to get all users products (needs to be authenticated)
+ *      description: Use to get all products from all users (needs to be authenticated)
  *      parameters:
  *           - in: header
  *             name: Authorization
  *             type: string
+ *             description: Bearer Access Token 
  *             required: true
  *      responses:
  *          '200':
@@ -40,14 +43,15 @@ productRouter.get('/all', productCtrl.allProducts);
  * /products:
  *  get:
  *      tags: [Products]
- *      summary: Get all current user products
+ *      summary: Get current user products
  *      produces:
  *          - "application/json"
- *      description: Use to get all current user products (needs to be authenticated)
+ *      description: Use to get all products of the current user (needs to be authenticated)
  *      parameters:
  *           - in: header
  *             name: Authorization
  *             type: string
+ *             description: Bearer Access Token  
  *             required: true
  *      responses:
  *          '200':
@@ -69,18 +73,15 @@ productRouter.get('/', isModerator, productCtrl.getProducts);
  *          - "application/json"
  *      description: Use to create a product (needs to be authenticated)
  *      parameters: 
- *          - name: name
- *            in: formData
- *            required: true
- *            type: string
- *          - name: stock
- *            in: formData
- *            required: true
- *            type: number
  *          - in: header
  *            name: Authorization
  *            type: string
+ *            description: Bearer Access Token   
  *            required: true
+ *          - in: body
+ *            name: product
+ *            schema:
+ *              $ref: '#/definitions/Product'
  *      responses:
  *          '201':
  *              description: Created.
@@ -93,21 +94,22 @@ productRouter.post('/', [isModerator, productValidationMw], productCtrl.createPr
 
 /**
  * @swagger
- * /products/{id}:
+ * /products/{productId}:
  *  get:
  *      tags: [Products]
  *      summary: Get product by id
  *      produces:
  *          - "application/json"
- *      description: Use to get a product by id (needs to be authenticated)
+ *      description: Use to get a single product by id (needs to be authenticated)
  *      parameters: 
  *          - in: path
- *            name: id
+ *            name: productId
  *            required: true
  *            type: string
  *          - in: header
  *            name: Authorization
  *            type: string
+ *            description: Bearer Access Token   
  *            required: true
  *      responses:
  *          '200':
@@ -121,7 +123,7 @@ productRouter.get('/:id', isModerator, productCtrl.getProduct);
 
 /**
  * @swagger
- * /products/{id}:
+ * /products/{productId}:
  *  put:
  *      tags: [Products]
  *      summary: Update product by id
@@ -130,21 +132,18 @@ productRouter.get('/:id', isModerator, productCtrl.getProduct);
  *      description: Use to update a product by id (needs to be authenticated)
  *      parameters: 
  *          - in: path
- *            name: id
+ *            name: productId
  *            required: true
  *            type: string
  *          - in: header
  *            name: Authorization
  *            type: string
+ *            description: Bearer Access Token
  *            required: true
- *          - name: name
- *            in: formData
- *            required: true
- *            type: string
- *          - name: stock
- *            in: formData
- *            required: true
- *            type: number
+ *          - in: body
+ *            name: product
+ *            schema:
+ *              $ref: '#/definitions/Product'
  *      responses:
  *          '200':
  *              description: OK.
@@ -157,7 +156,7 @@ productRouter.put('/:id', [isModerator, productValidationMw], productCtrl.update
 
 /**
  * @swagger
- * /products/{id}:
+ * /products/{productId}:
  *  delete:
  *      tags: [Products]
  *      summary: Delete product by id
@@ -166,12 +165,13 @@ productRouter.put('/:id', [isModerator, productValidationMw], productCtrl.update
  *      description: Use to delete a product by id (needs to be authenticated)
  *      parameters: 
  *          - in: path
- *            name: id
+ *            name: productId
  *            required: true
  *            type: string
  *          - in: header
  *            name: Authorization
  *            type: string
+ *            description: Bearer Access Token 
  *            required: true
  *      responses:
  *          '200':
@@ -182,5 +182,26 @@ productRouter.put('/:id', [isModerator, productValidationMw], productCtrl.update
  *              description: Server internal error.
  */
 productRouter.delete('/:id', isAdmin, productCtrl.deleteProduct);
+
+//Definitions (Models)
+
+/**
+ * @swagger
+ * definitions:
+ *  Product:
+ *   properties:
+ *     name:
+ *       type: string
+ *     stock:
+ *       type: integer
+ *       minimum: 1
+ *   example:
+ *     name: fake product
+ *     stock: 10  
+ *   # Both properties are required
+ *   required:  
+ *     - name
+ *     - stock
+ */
 
 export default productRouter;
