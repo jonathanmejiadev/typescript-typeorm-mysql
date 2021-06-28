@@ -1,6 +1,8 @@
-# API REST - TypeScript TypeORM MySQL
+# Market API REST
 
-NodeJs TypeScript API REST using TypeORM with MySQL for User Authentication with jwt,passport,roles and validations.
+Market API is an application that allows you to authenticate users, get profile, delete account, perform CRUD operations on products based on user roles and get all products from other users.
+
+Build with: TypeScript, NodeJs, Express, TypeORM and MySQL.
 
 ## Getting Started 🚀
 
@@ -57,7 +59,6 @@ Running by default in `http://localhost:3000/api-docs`
 - [joi](https://www.npmjs.com/package/joi) - Powerful schema description language and data validator for JavaScript.
 - [bcryptjs](https://www.npmjs.com/package/bcryptjs) - Library to help you hash passwords.
 - [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) - Open JSON-based standard proposed by IETF for token creations.
-- [yup](https://www.npmjs.com/package/yup) - Yup is a JavaScript schema builder for value parsing and validation.
 - [helmet](https://www.npmjs.com/package/helmet) - Helps you secure your Express apps by setting various HTTP headers.
 - [http-errors](https://www.npmjs.com/package/@curveball/http-errors) - This package contains a list of standard HTTP exceptions for Typescript.
 - [swagger-jsdoc](https://www.npmjs.com/package/swagger-jsdoc) - reads your JSDoc-annotated source code and generates an OpenAPI (Swagger) specification
