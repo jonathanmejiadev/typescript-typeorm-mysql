@@ -6,6 +6,7 @@ export interface IUser {
     username: string;
     email: string;
     password: string;
+    confirmed: boolean;
     roles: string[];
     products: Product[];
 }
@@ -24,6 +25,9 @@ export default class UserEntity extends BaseEntity {
     @Column()
     password: string;
 
+    @Column('boolean', { default: false })
+    confirmed: boolean;
+
     @Column("simple-array")
     roles: string[];
 
@@ -37,5 +41,5 @@ export default class UserEntity extends BaseEntity {
 
     async validatePassword(password: string): Promise<boolean> {
         return await compare(password, this.password);
-    }
+    };
 };

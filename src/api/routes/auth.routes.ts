@@ -113,6 +113,8 @@ authRouter.get('/profile', [AuthGuard, AuthErrorHandler], authCtrl.profile);
  */
 authRouter.delete('/deleteAccount', [AuthGuard, AuthErrorHandler], authCtrl.deleteAccount);
 
+authRouter.get('/confirmation/:confirmCode', authCtrl.confirm);
+
 /**
  * @swagger
  * definitions:
