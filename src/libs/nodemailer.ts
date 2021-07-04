@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-export const confirmEmail = async (email: string, confirmCode: string) => {
+export const sendConfirmationEmail = async (email: string, confirmCode: string) => {
     try {
         const url = `${config.DOMAIN}/auth/confirmation/${confirmCode}`;
         const emailSent = await transporter.sendMail({

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { checkRoles, checkUsernameEmailExists, userValidationMw, AuthGuard, AuthErrorHandler } from '../../middlewares';
+import { checkRoles, checkUsernameEmailExists, userValidationMw, AuthGuard, AuthErrorHandler } from '../middlewares';
 import * as authCtrl from '../controllers/auth.controller';
 
 const authRouter = Router();
@@ -65,55 +65,8 @@ authRouter.post('/register', [userValidationMw, checkUsernameEmailExists, checkR
  */
 authRouter.post('/login', authCtrl.login);
 
-/**
- * @swagger
- * /auth/profile:
- *  get:
- *      tags: [Auth]
- *      summary: User profile
- *      produces:
- *          - "application/json"
- *      description: Use to get current user profile (needs to be authenticated)
- *      parameters:
- *           - in: header
- *             name: Authorization
- *             type: string
- *             description: Bearer + Access Token 
- *             required: true
- *      responses:
- *          '200':
- *              description: OK.
- *          '401':
- *              description: Unauthorized.
- *          '500':
- *              description: Server internal error.
- */
-authRouter.get('/profile', [AuthGuard, AuthErrorHandler], authCtrl.profile);
 
-/**
- * @swagger
- * /auth/deleteAccount:
- *  delete:
- *      tags: [Auth]
- *      summary: Delete user account
- *      produces:
- *          - "application/json"
- *      description: Use to delete current user account (needs to be authenticated)
- *      parameters:
- *           - in: header
- *             name: Authorization
- *             type: string
- *             description: Bearer + Access Token  
- *             required: true      
- *      responses:
- *          '200':
- *              description: OK.
- *          '500':
- *              description: Server internal error.
- */
-authRouter.delete('/deleteAccount', [AuthGuard, AuthErrorHandler], authCtrl.deleteAccount);
-
-authRouter.get('/confirmation/:confirmCode', authCtrl.confirm);
+authRouter.get('/confirmation/:confirmCode', authCtrl.confirmEmail);
 
 /**
  * @swagger

@@ -12,7 +12,7 @@ import swaggerUi from 'swagger-ui-express';
 import config from './config';
 import passportMiddleware from './middlewares/passport';
 import { errorHandler, errorHandler404 } from './middlewares/error';
-import indexRoutes from './api/routes/index.routes';
+import indexRoutes from './routes/index.routes';
 import { swaggerOptions } from './helpers/swaggerOptions';
 
 const app = express();

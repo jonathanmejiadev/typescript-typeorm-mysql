@@ -1,7 +1,7 @@
 import { ExtractJwt, Strategy, StrategyOptions } from 'passport-jwt';
-import User from '../api/entity/User';
 import config from '../config/index';
 import { NotFound } from '@curveball/http-errors';
+import { findUser } from '../services/user.service';
 
 const opts: StrategyOptions = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -10,12 +10,12 @@ const opts: StrategyOptions = {
 
 export default new Strategy(opts, async (jwtPayload, done) => {
     try {
-        const user = await User.findOne(jwtPayload.id, { select: ['id'] });
+        const user = await findUser(jwtPayload.id, { select: ['id'] });
         if (!user) {
             throw new NotFound('User not found');
         }
         return done(null, user.id);
     } catch (err) {
         done(null, false);
-    }
+    };
 });

@@ -1,7 +1,7 @@
 export const swaggerOptions: any = {
     swaggerDefinition: {
         info: {
-            title: 'API REST TypeORM MySQL',
+            title: 'Market API',
             description: 'User auth & products crud',
             contact: {
                 name: 'Jonathan Mejia'
@@ -9,5 +9,5 @@ export const swaggerOptions: any = {
             servers: ['http://localhost:3000']
         }
     },
-    apis: ['src/api/routes/*.ts']
+    apis: ['src/routes/*.ts']
 };

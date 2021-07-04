@@ -1,20 +1,23 @@
 import { Request, Response, NextFunction } from 'express';
-import User from '../api/entity/User';
 import { UnprocessableEntity, Conflict } from '@curveball/http-errors';
+import { findUser } from '../services/user.service';
 
 export const checkUsernameEmailExists = async (req: Request, res: Response, next: NextFunction) => {
     const { username, email } = req.body;
     try {
-        const usernameTakenRes = User.findOne({ username: username }, { select: ['username'] });
-        const emailTakenRes = User.findOne({ email: email }, { select: ['email'] });
+        console.log(username + ' * ' + email);
+        const usernameTakenRes = findUser({ username: username }, { select: ['username'] });
+        const emailTakenRes = findUser({ email: email }, { select: ['email'] });
         const [usernameTaken, emailTaken] = await Promise.all([usernameTakenRes, emailTakenRes]);
+        console.log(usernameTaken);
+        console.log(emailTaken);
         if (usernameTaken && emailTaken) throw new Conflict('Username and Email already taken');
         if (usernameTaken) throw new Conflict('Username already taken');
         if (emailTaken) throw new Conflict('Email already exists');
         return next();
     } catch (err) {
         next(err);
-    }
+    };
 };
 
 export const checkRoles = (req: Request, res: Response, next: NextFunction) => {
@@ -32,5 +35,5 @@ export const checkRoles = (req: Request, res: Response, next: NextFunction) => {
         return next();
     } catch (err) {
         next(err);
-    }
+    };
 };

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import * as productCtrl from '../controllers/product.controller';
-import { isAdmin, isModerator, productValidationMw } from '../../middlewares';
+import { isAdmin, isModerator, productValidationMw } from '../middlewares';
 
 const productRouter = Router();
 
