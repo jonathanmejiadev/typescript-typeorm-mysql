@@ -56,6 +56,7 @@ Running by default in `http://localhost:3000/api-docs`
 - [mysql](https://www.npmjs.com/package/mysql) - Relational database management system developed by Oracle.
 - [passport](https://www.npmjs.com/package/passport) - Express-compatible authentication middleware for Node.js.
 - [passport-jwt](https://www.npmjs.com/package/passport-jwt) - Passport strategy for authenticating with a JSON Web Token.
+- [nodemailer](https://www.npmjs.com/package/nodemailer) - Send emails from Node
 - [joi](https://www.npmjs.com/package/joi) - Powerful schema description language and data validator for JavaScript.
 - [bcryptjs](https://www.npmjs.com/package/bcryptjs) - Library to help you hash passwords.
 - [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) - Open JSON-based standard proposed by IETF for token creations.
