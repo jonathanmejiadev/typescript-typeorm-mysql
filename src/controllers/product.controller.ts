@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
-import { IProduct } from '../interfaces/product.interface';
+import { IProduct, IProductInput } from '../interfaces/product.interface';
 import * as productService from '../services/product.service';
 
 export const createProduct = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const newProduct: IProduct = { ...req.body };
+        const newProduct: IProductInput = { ...req.body };
         newProduct.ownerId = req.user;
         const savedProduct = await productService.save(newProduct);
         return res.status(201).json({ success: 'true', message: 'Product has been saved', data: savedProduct });

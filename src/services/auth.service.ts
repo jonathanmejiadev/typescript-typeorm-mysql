@@ -1,11 +1,11 @@
 import * as userRepo from '../repositories/user.repository';
-import { IUser } from '../interfaces/user.interface';
+import { IUser, IUserInput } from '../interfaces/user.interface';
 import { hashPassword, validatePassword } from '../libs/bcrypt';
 import { provideToken, verifyToken } from '../libs/jwt';
 import { sendConfirmationEmail } from '../libs/nodemailer';
 import { Unauthorized, NotFound } from '@curveball/http-errors';
 
-export const register = async (user: IUser) => {
+export const register = async (user: IUserInput) => {
     try {
         user.password = await hashPassword(user.password);
         const savedUser = await userRepo.save(user);

@@ -1,9 +1,9 @@
 import * as productRepo from '../repositories/product.repository';
-import { IProduct } from '../interfaces/product.interface';
+import { IProduct, IProductInput } from '../interfaces/product.interface';
 import { NotFound } from '@curveball/http-errors';
 
 
-export const save = async (product: IProduct) => {
+export const save = async (product: IProductInput) => {
     return await productRepo.create(product);
 };
 

@@ -12,6 +12,6 @@ export const deleteAccount = async (userId: number) => {
     return await userRepo.remove(userId);
 };
 
-export const findUser = async (user: object, opts?: object) => {
+export const findUser = async (user: IUser, opts?: object) => {
     return await userRepo.findUser(user, opts)
 };

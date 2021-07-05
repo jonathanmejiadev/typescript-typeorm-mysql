@@ -1,7 +1,7 @@
 import Product from '../entity/Product';
-import { IProduct } from '../interfaces/product.interface';
+import { IProduct, IProductInput } from '../interfaces/product.interface';
 
-export const create = async (product: IProduct) => {
+export const create = async (product: IProductInput) => {
     const createdProduct = Product.create(product);
     return await Product.save(createdProduct);
 };

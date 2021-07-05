@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
-import { IUser } from '../interfaces/user.interface';
+import { IUserInput } from '../interfaces/user.interface';
 import * as authService from '../services/auth.service';
 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        let newUser: IUser = { ...req.body };
+        let newUser: IUserInput = { ...req.body };
         await authService.register(newUser);
         return res.status(201).json({
             success: true,
@@ -18,7 +18,6 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
 export const confirmEmail = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { confirmCode } = req.params;
-        //investigar distintos casos de confirm
         await authService.confirmEmail(confirmCode);
         return res.status(200).json({
             success: true,
