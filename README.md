@@ -1,6 +1,6 @@
 # Market API REST
 
-Market API is an application that allows you to authenticate users, get profile, delete account, perform CRUD operations on products based on user roles and get all products from other users.
+Market API is an application that allows you to register users with email confirmation, users login, get profile, delete account, perform CRUD operations on products based on user roles, and get all products from other users.
 
 Build with: TypeScript, NodeJs, Express, TypeORM and MySQL.
 
@@ -40,6 +40,10 @@ Running by default in `http://localhost:3000/api-docs`
 ### Auth
 
 ![auth](docs/images/auth.png)
+
+### User
+
+![User](docs/images/user.png)
 
 ### Products
 
