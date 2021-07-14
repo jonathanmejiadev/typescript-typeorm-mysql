@@ -2,12 +2,13 @@ import chaiHttp from 'chai-http';
 import chai from 'chai';
 import app from '../index'
 //import request from 'supertest';
+import { provideToken, verifyToken } from '../libs/jwt';
 
 const assert = chai.assert;
 chai.use(chaiHttp);
 
-let userId;
-let token;
+let userId: String;
+let token: String;
 
 describe("POST /auth/register", () => {
     it("register a user with valid data", (done) => {
@@ -16,12 +17,14 @@ describe("POST /auth/register", () => {
             password: 'passtest',
             email: 'email@test.com',
             roles: ['ADMIN']
-        }
+        };
 
         chai.request(app)
             .post('/auth/register')
             .send(userData)
             .end(function (err, res) {
+                userId = res.body.data.id;
+                token = provideToken(res.body.data.id);
                 assert.equal(res.status, 201);
                 assert.equal(res.body.success, true);
                 done();
@@ -101,12 +104,14 @@ describe('Confirm email', () => {
 
     it('confirm email with valid token', (done) => {
         chai.request(app)
-            .get(`/confirmation/:confirmCode`)
+            .get(`/auth/confirmation/${token}`)
             .end(function (err, res) {
-
+                assert.equal(res.status, 200);
+                assert.equal(res.body.success, true);
+                done();
             })
     })
-})
+});
 
 describe('POST /auth/login', () => {
     it('login user with valid data', (done) => {
@@ -123,6 +128,6 @@ describe('POST /auth/login', () => {
                 assert.equal(res.body.success, true);
                 done();
             })
-    })
+    });
 
-})
+});
