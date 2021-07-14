@@ -5,10 +5,11 @@ import * as authService from '../services/auth.service';
 export const register = async (req: Request, res: Response, next: NextFunction) => {
     try {
         let newUser: IUserInput = { ...req.body };
-        await authService.register(newUser);
+        const savedUser = await authService.register(newUser);
         return res.status(201).json({
             success: true,
-            message: 'Registration completed successfully'
+            message: 'Registration completed successfully',
+            data: savedUser
         });
     } catch (err) {
         next(err);
