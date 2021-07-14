@@ -33,7 +33,7 @@ const userRouter = Router();
  *          '500':
  *              description: Server internal error.
  */
-userRouter.get('/profile', userCtrl.profile);
+userRouter.get('/', userCtrl.profile);
 
 /**
  * @swagger
@@ -56,6 +56,6 @@ userRouter.get('/profile', userCtrl.profile);
  *          '500':
  *              description: Server internal error.
  */
-userRouter.delete('/deleteAccount', userCtrl.deleteAccount);
+userRouter.delete('/', userCtrl.deleteAccount);
 
 export default userRouter;
