@@ -12,7 +12,7 @@ const userRouter = Router();
 
 /**
  * @swagger
- * /user/profile:
+ * /user:
  *  get:
  *      tags: [User]
  *      summary: User profile
@@ -37,7 +37,7 @@ userRouter.get('/', userCtrl.profile);
 
 /**
  * @swagger
- * /user/deleteAccount:
+ * /user:
  *  delete:
  *      tags: [User]
  *      summary: Delete user account
