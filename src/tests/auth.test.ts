@@ -140,12 +140,42 @@ describe('POST /auth/login', () => {
                 done();
             })
     });
+
+    it('login user with invalid username', (done) => {
+        const userData = {
+            username: 'usertes1',
+            password: 'passtest'
+        }
+        chai.request(app)
+            .post('/auth/login')
+            .send(userData)
+            .end(function (err, res) {
+                assert.equal(res.status, 401);
+                assert.equal(res.body.success, false);
+                done();
+            })
+    });
+
+    it('login user with invalid password', (done) => {
+        const userData = {
+            username: 'usertest',
+            password: 'passtes1'
+        }
+        chai.request(app)
+            .post('/auth/login')
+            .send(userData)
+            .end(function (err, res) {
+                assert.equal(res.status, 401);
+                assert.equal(res.body.success, false);
+                done();
+            })
+    });
 });
 
-describe('GET /user/profile', () => {
-    it('get profile with valid userId', (done) => {
+describe('GET /user', () => {
+    it('get profile current user', (done) => {
         chai.request(app)
-            .get('/user/profile')
+            .get('/user')
             .set('Authorization', `Bearer ${token}`)
             .end(function (err, res) {
                 assert.equal(res.status, 200);
@@ -153,16 +183,37 @@ describe('GET /user/profile', () => {
                 done();
             })
     })
-})
+    it('get profile with invalid auth token', (done) => {
+        chai.request(app)
+            .get('/user')
+            .set('Authorization', `Bearer ${token}1`)
+            .end(function (err, res) {
+                assert.equal(res.status, 401);
+                assert.equal(res.body.success, false);
+                done();
+            });
+    });
+});
 
-describe('DELETE /user/deleteAccount', () => {
+describe('DELETE /user', () => {
     it('delete current user account', (done) => {
         chai.request(app)
-            .delete('/user/deleteAccount')
+            .delete('/user')
             .set('Authorization', `Bearer ${token}`)
             .end(function (err, res) {
                 assert.equal(res.status, 200);
                 assert.equal(res.body.success, true);
+                done();
+            });
+    });
+
+    it('delete current user account with invalid auth token', (done) => {
+        chai.request(app)
+            .delete('/user')
+            .set('Authorization', `Bearer ${token}1`)
+            .end(function (err, res) {
+                assert.equal(res.status, 401);
+                assert.equal(res.body.success, false);
                 done();
             });
     });
