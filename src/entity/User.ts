@@ -21,6 +21,9 @@ export default class UserEntity extends BaseEntity {
     @Column("simple-array")
     roles: string[];
 
+    @Column('number', { default: 0 })
+    wallet: number;
+
     @OneToMany(() => Product, product => product.owner)
     products: Product[];
 };
