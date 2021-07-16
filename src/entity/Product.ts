@@ -13,6 +13,9 @@ export default class ProductEntity extends BaseEntity {
     stock: number;
 
     @Column()
+    price: number;
+
+    @Column()
     ownerId: number;
 
     @ManyToOne(() => User, user => user.products, { onDelete: 'CASCADE' })
