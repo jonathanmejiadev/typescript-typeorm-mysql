@@ -58,4 +58,6 @@ userRouter.get('/', userCtrl.profile);
  */
 userRouter.delete('/', userCtrl.deleteAccount);
 
+userRouter.put('/deposit', userCtrl.deposit);
+
 export default userRouter;

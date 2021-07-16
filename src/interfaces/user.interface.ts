@@ -7,6 +7,7 @@ export interface IUser {
     password?: string;
     confirmed?: boolean;
     roles?: string[];
+    wallet?: number;
     products?: Product[];
 };
 
