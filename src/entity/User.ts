@@ -1,6 +1,12 @@
 import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, OneToMany } from 'typeorm';
 import Product from './Product';
 
+export enum UserRole {
+    ADMIN = 'ADMIN',
+    MODERATOR = 'MOD',
+    USER = 'USER'
+};
+
 @Entity()
 export default class UserEntity extends BaseEntity {
     @PrimaryGeneratedColumn()
@@ -14,6 +20,15 @@ export default class UserEntity extends BaseEntity {
 
     @Column()
     password: string;
+
+    @Column()
+    firstName: string;
+
+    @Column()
+    lastName: string;
+
+    @Column()
+    avatar: string;
 
     @Column('boolean', { default: false })
     confirmed: boolean;
