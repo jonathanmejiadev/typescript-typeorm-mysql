@@ -10,10 +10,16 @@ export default class ProductEntity extends BaseEntity {
     name: string;
 
     @Column()
+    description: string;
+
+    @Column()
     stock: number;
 
     @Column()
     price: number;
+
+    @Column("simple-array")
+    images: string[];
 
     @Column()
     ownerId: number;
