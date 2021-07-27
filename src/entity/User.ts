@@ -52,5 +52,5 @@ export default class UserEntity extends BaseEntity {
     roles: string[];
 
     @OneToMany(() => Order, order => order.userId)
-    orders: Order;
+    orders: Order[];
 };
