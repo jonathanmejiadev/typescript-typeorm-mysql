@@ -7,7 +7,7 @@ export const create = async (product: IProductInput) => {
 };
 
 export const getMyProducts = async (userId: number) => {
-    return await Product.find({ ownerId: userId });
+    return await Product.find();
 };
 
 export const getById = async (productId: number) => {
