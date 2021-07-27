@@ -19,6 +19,6 @@ export const findUser = async (user: IUser, opts?: object) => {
 export const depositToWallet = async (userId: number, cash: number) => {
     const user = await userRepo.findUser({ id: userId });
     if (!user) throw new NotFound('User not found');
-    const deposit = user.wallet + cash;
-    return await userRepo.update(user, { wallet: deposit });
+    // const deposit = user.wallet + cash;
+    // return await userRepo.update(user, { wallet: deposit });
 };

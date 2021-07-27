@@ -51,12 +51,6 @@ export default class UserEntity extends BaseEntity {
     @Column("simple-array")
     roles: string[];
 
-    @Column({
-        default: 0,
-        nullable: false
-    })
-    wallet: number;
-
     @OneToMany(() => Order, order => order.userId)
     orders: Order;
 };
