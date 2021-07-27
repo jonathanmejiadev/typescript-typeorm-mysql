@@ -1,5 +1,6 @@
-import { Column, PrimaryGeneratedColumn, BaseEntity, Entity, ManyToOne, JoinColumn } from 'typeorm';
+import { Column, PrimaryGeneratedColumn, BaseEntity, Entity, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 import User from './User';
+import OrderLine from './OrderLine';
 
 export enum Status {
     ADMIN = "admin",
@@ -45,4 +46,7 @@ export default class OrderEntity extends BaseEntity {
     @ManyToOne(() => User, user => user.orders, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'userId' })
     user: User;
+
+    @OneToMany(() => OrderLine, order => order.orderId)
+    orderLines: OrderLine[];
 };
