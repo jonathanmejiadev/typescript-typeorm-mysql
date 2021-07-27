@@ -1,4 +1,5 @@
 import { Column, PrimaryGeneratedColumn, BaseEntity, Entity, ManyToOne, JoinColumn } from 'typeorm';
+import Product from './Product';
 
 @Entity()
 export default class ReviewEntity extends BaseEntity {
@@ -21,4 +22,11 @@ export default class ReviewEntity extends BaseEntity {
         nullable: false
     })
     description: string
+
+    @Column()
+    productId: number;
+
+    @ManyToOne(() => Product, product => product.reviews, { onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'productId' })
+    product: Product;
 };

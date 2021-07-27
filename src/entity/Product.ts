@@ -1,5 +1,7 @@
-import { Column, PrimaryGeneratedColumn, BaseEntity, Entity, ManyToOne, JoinColumn } from 'typeorm';
+import { Column, PrimaryGeneratedColumn, BaseEntity, Entity, ManyToOne, OneToMany, JoinColumn, ManyToMany, JoinTable } from 'typeorm';
 import User from './User';
+import Review from './Review';
+import Category from './Category';
 
 @Entity()
 export default class ProductEntity extends BaseEntity {
@@ -23,10 +25,10 @@ export default class ProductEntity extends BaseEntity {
     @Column("simple-array")
     images: string[];
 
-    @Column()
-    ownerId: number;
+    @OneToMany(() => Review, review => review.productId)
+    reviews: Review;
 
-    @ManyToOne(() => User, user => user.products, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'ownerId' })
-    owner: User;
+    @ManyToMany(() => Category)
+    @JoinTable()
+    categories: Category[]
 };

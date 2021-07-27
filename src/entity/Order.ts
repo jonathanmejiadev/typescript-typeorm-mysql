@@ -1,4 +1,5 @@
 import { Column, PrimaryGeneratedColumn, BaseEntity, Entity, ManyToOne, JoinColumn } from 'typeorm';
+import User from './User';
 
 export enum Status {
     ADMIN = "admin",
@@ -37,4 +38,11 @@ export default class OrderEntity extends BaseEntity {
         default: 0
     })
     merchant_order_id: number;
+
+    @Column()
+    userId: number;
+
+    @ManyToOne(() => User, user => user.orders, { onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'userId' })
+    user: User;
 };

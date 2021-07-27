@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, OneToMany } from 'typeorm';
 import Product from './Product';
+import Order from './Order';
 
 export enum UserRole {
     ADMIN = 'ADMIN',
@@ -56,6 +57,6 @@ export default class UserEntity extends BaseEntity {
     })
     wallet: number;
 
-    @OneToMany(() => Product, product => product.owner)
-    products: Product[];
+    @OneToMany(() => Order, order => order.userId)
+    orders: Order;
 };
