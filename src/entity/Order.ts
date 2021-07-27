@@ -20,7 +20,7 @@ export default class OrderEntity extends BaseEntity {
 
     @Column({
         type: "enum",
-        enum: Status,
+        enum: ['on_cart', 'created', 'processing', 'completed', 'cancelled'],
         nullable: false
     })
     status: Status
