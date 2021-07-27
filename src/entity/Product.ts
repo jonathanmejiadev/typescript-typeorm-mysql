@@ -6,16 +6,18 @@ export default class ProductEntity extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({
+        nullable: false
+    })
     name: string;
 
-    @Column()
+    @Column({ length: 2000 })
     description: string;
 
-    @Column()
+    @Column({ nullable: false, scale: 2 })
     stock: number;
 
-    @Column()
+    @Column({ nullable: false })
     price: number;
 
     @Column("simple-array")
