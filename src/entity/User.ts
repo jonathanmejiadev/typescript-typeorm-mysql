@@ -12,31 +12,48 @@ export default class UserEntity extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({
+        nullable: false
+    })
     username: string;
 
-    @Column()
+    @Column({
+        nullable: false
+    })
     email: string;
 
-    @Column()
+    @Column({
+        nullable: false
+    })
     password: string;
 
-    @Column()
+    @Column({
+        nullable: false
+    })
     firstName: string;
 
-    @Column()
+    @Column({
+        nullable: false
+    })
     lastName: string;
 
-    @Column()
+    @Column({
+        nullable: true
+    })
     avatar: string;
 
-    @Column('boolean', { default: false })
+    @Column('boolean', {
+        default: false
+    })
     confirmed: boolean;
 
     @Column("simple-array")
     roles: string[];
 
-    @Column({ default: 0 })
+    @Column({
+        default: 0,
+        nullable: false
+    })
     wallet: number;
 
     @OneToMany(() => Product, product => product.owner)
