@@ -12,7 +12,7 @@ export default class OrderEntity extends BaseEntity {
     id: number;
 
     @Column({
-
+        scale: 2
     })
     total: number;
 
@@ -26,7 +26,7 @@ export default class OrderEntity extends BaseEntity {
     @Column({
         default: 0
     })
-    payment_id: string
+    payment_id: number
 
     @Column({
         default: ''
