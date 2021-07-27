@@ -1,5 +1,6 @@
-import { Column, PrimaryGeneratedColumn, BaseEntity, Entity, ManyToOne, JoinColumn } from 'typeorm';
+import { Column, PrimaryGeneratedColumn, BaseEntity, Entity, ManyToOne, JoinColumn, OneToOne } from 'typeorm';
 import Order from './Order';
+import Product from './Product'
 
 @Entity()
 export default class CategoryEntity extends BaseEntity {
@@ -20,4 +21,8 @@ export default class CategoryEntity extends BaseEntity {
     @ManyToOne(() => Order, order => order.orderLines, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'orderId' })
     orderId: Order;
+
+    @OneToOne(() => Product)
+    @JoinColumn()
+    productId: Product;
 };
