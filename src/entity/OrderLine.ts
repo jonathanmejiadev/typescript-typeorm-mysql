@@ -14,5 +14,5 @@ export default class CategoryEntity extends BaseEntity {
         scale: 2,
         nullable: false
     })
-    price: string;
+    price: number;
 };
