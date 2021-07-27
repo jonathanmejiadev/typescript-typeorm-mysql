@@ -14,7 +14,7 @@ export default class CategoryEntity extends BaseEntity {
     name: string;
 
     @Column()
-    description: string
+    description: string;
 
     @ManyToMany(() => Product, product => product.categories)
     products: Product[];

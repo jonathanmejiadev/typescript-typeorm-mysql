@@ -30,5 +30,5 @@ export default class ProductEntity extends BaseEntity {
 
     @ManyToMany(() => Category)
     @JoinTable()
-    categories: Category[]
+    categories: Category[];
 };
