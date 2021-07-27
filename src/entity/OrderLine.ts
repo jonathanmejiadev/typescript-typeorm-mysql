@@ -18,9 +18,12 @@ export default class CategoryEntity extends BaseEntity {
     })
     price: number;
 
+    @Column()
+    orderId: number;
+
     @ManyToOne(() => Order, order => order.orderLines, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'orderId' })
-    orderId: Order;
+    order: Order;
 
     @OneToOne(() => Product)
     @JoinColumn()
