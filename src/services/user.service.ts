@@ -59,6 +59,11 @@ export const addProductToCart = async (userId: number, productId: number, quanti
 };
 
 export const deleteProductFromCart = async (userId: number, orderLineId: number) => {
+    const orderLine = await OrderLine.findOne({ where: { id: orderLineId } });
+    if (!orderLine) throw new NotFound('OrderLine not found');
     await OrderLine.delete(orderLineId);
-    return await Order.findOne({ where: { userId, status: 'on_cart' }, relations: ['orderLines'] });
+    let order = await Order.findOne({ where: { userId, status: 'on_cart' }, relations: ['orderLines'] });
+    if (!order) throw new NotFound('Order not found');
+    order.total -= orderLine?.totalPrice
+    return await Order.save(order);
 };
