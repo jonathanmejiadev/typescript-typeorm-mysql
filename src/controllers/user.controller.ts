@@ -72,3 +72,14 @@ export const addProductToCart = async (req: Request, res: Response, next: NextFu
         next(err)
     }
 };
+
+export const deleteProductFromCart = async (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.user;
+    const orderLineId = Number(req.params.orderLineId);
+    try {
+        const order = await userService.deleteProductFromCart(userId, orderLineId);
+        res.status(200).json({ success: true, message: 'Product deleted from cart', data: order });
+    } catch (err) {
+        next(err)
+    }
+}

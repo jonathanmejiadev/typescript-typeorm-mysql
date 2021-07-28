@@ -1,5 +1,5 @@
 import * as userRepo from '../repositories/user.repository';
-import { NotFound } from '@curveball/http-errors';
+import { NotFound, BadRequest } from '@curveball/http-errors';
 import { IUser } from '../interfaces/user.interface';
 import Order from '../entity/Order';
 import User from '../entity/User'
@@ -39,6 +39,7 @@ export const getCart = async (userId: number) => {
 };
 
 export const addProductToCart = async (userId: number, productId: number, quantity: number) => {
+    if (!(quantity >= 1)) throw new BadRequest('Quantity must be greater than one');
     let order = await Order.findOne({ where: { userId, status: 'on_cart' }, relations: ['orderLines'] });
     if (!order) throw new NotFound('Order not found');
     let product = await Product.findOne({ id: productId });
@@ -57,3 +58,7 @@ export const addProductToCart = async (userId: number, productId: number, quanti
     return await Order.save(order);
 };
 
+export const deleteProductFromCart = async (userId: number, orderLineId: number) => {
+    await OrderLine.delete(orderLineId);
+    return await Order.findOne({ where: { userId, status: 'on_cart' }, relations: ['orderLines'] });
+};
