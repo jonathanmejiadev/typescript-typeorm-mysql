@@ -52,6 +52,15 @@ export const createCart = async (req: Request, res: Response, next: NextFunction
     }
 };
 
+export const getCart = async (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.user;
+    try {
+        const cart = await userService.getCart(userId);
+        res.status(200).json({ success: true, data: cart });
+    } catch (err) {
+        next(err)
+    }
+}
 export const addProductToCart = async (req: Request, res: Response, next: NextFunction) => {
     const userId = req.user;
     const { productId, quantity } = req.body;

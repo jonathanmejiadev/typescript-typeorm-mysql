@@ -30,24 +30,27 @@ export const depositToWallet = async (userId: number, cash: number) => {
 export const createCart = async (userId: number, cart: object) => {
     let createdOrder = await Order.create({ userId, status: 'on_cart', total: 0 })
     createdOrder.orderLines = [];
-
     console.log(createdOrder);
     return await Order.save(createdOrder);
 };
 
+export const getCart = async (userId: number) => {
+    return await Order.findOne({ where: { userId, status: 'on_cart' }, relations: ['orderLines'] });
+}
+
 export const addProductToCart = async (userId: number, productId: number, quantity: number) => {
-    let order = await Order.findOne({ where: { userId, status: 'on_cart' } });
-    if (!order) return;
+    let order = await Order.findOne({ where: { userId, status: 'on_cart' }, relations: ['orderLines'] });
+    if (!order) throw new NotFound('Order not found');
     let product = await Product.findOne({ id: productId });
-    if (!product) return;
+    if (!product) throw new NotFound('Product not found');
     let createdOrderLine = OrderLine.create({
         order: order,
         productId,
         quantity,
         price: product.price * quantity
     });
-
+    console.log(order);
     const savedOrderLine = await OrderLine.save(createdOrderLine);
-    order.orderLines.push(savedOrderLine)
+    order.orderLines.push(savedOrderLine);
     return await Order.save(order);
 }

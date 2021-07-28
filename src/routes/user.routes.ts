@@ -62,6 +62,8 @@ userRouter.put('/deposit', userCtrl.deposit);
 
 userRouter.post('/cart', userCtrl.createCart);
 
+userRouter.get('/cart', userCtrl.getCart);
+
 userRouter.post('/cart/add', userCtrl.addProductToCart);
 
 export default userRouter;
