@@ -27,10 +27,11 @@ export const depositToWallet = async (userId: number, cash: number) => {
     // return await userRepo.update(user, { wallet: deposit });
 };
 
-export const createCart = async (userId: number, cart: object) => {
-    let createdOrder = await Order.create({ userId, status: 'on_cart', total: 0 })
+export const createCart = async (userId: number) => {
+    const order = await Order.findOne({ where: { userId, status: 'on_cart' }, relations: ['orderLines'] });
+    if (order) return order;
+    let createdOrder = Order.create({ userId, status: 'on_cart', total: 0 })
     createdOrder.orderLines = [];
-    console.log(createdOrder);
     return await Order.save(createdOrder);
 };
 
@@ -51,7 +52,6 @@ export const addProductToCart = async (userId: number, productId: number, quanti
         pricePerUnit: product.price,
         totalPrice: product.price * quantity
     });
-    console.log(order);
     const savedOrderLine = await OrderLine.save(createdOrderLine);
     order.total += createdOrderLine.totalPrice;
     order.orderLines.push(savedOrderLine);
