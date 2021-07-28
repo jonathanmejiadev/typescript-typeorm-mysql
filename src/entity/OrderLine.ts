@@ -25,7 +25,10 @@ export default class CategoryEntity extends BaseEntity {
     @JoinColumn({ name: 'orderId' })
     order: Order;
 
+    @Column()
+    productId: number;
+
     @OneToOne(() => Product)
-    @JoinColumn()
-    productId: Product;
+    @JoinColumn({ name: 'productId' })
+    product: Product;
 };

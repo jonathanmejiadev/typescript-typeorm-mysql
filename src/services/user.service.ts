@@ -3,6 +3,8 @@ import { NotFound } from '@curveball/http-errors';
 import { IUser } from '../interfaces/user.interface';
 import Order from '../entity/Order';
 import User from '../entity/User'
+import Product from '../entity/Product';
+import OrderLine from '../entity/OrderLine';
 
 export const profile = async (userId: number) => {
     const user = await userRepo.findUser({ id: userId }, { select: ['id', 'username', 'email', 'wallet', 'roles'], relations: ['products'] });
@@ -29,4 +31,21 @@ export const createCart = async (userId: number, cart: object) => {
     let createdOrder = await Order.create({ userId, status: 'on_cart', total: 0 })
     console.log(createdOrder);
     return await Order.save(createdOrder);
+};
+
+export const addProductToCart = async (userId: number, productId: number, quantity: number) => {
+    let order = await Order.findOne({ where: { userId, status: 'on_cart' } });
+    if (!order) return;
+    let product = await Product.findOne({ id: productId });
+    if (!product) return;
+    let createdOrderLine = OrderLine.create({
+        orderId: order.id,
+        productId,
+        quantity,
+        price: product.price * quantity
+    });
+
+    const savedOrderLine = await OrderLine.save(createdOrderLine);
+    order.orderLines.push(savedOrderLine)
+    return await Order.save(order);
 }
