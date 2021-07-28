@@ -9,7 +9,6 @@ export const productValidation = Joi.object({
         .required()
     ,
     description: Joi.string()
-        .pattern(/^[\w\-\s]+$/)
         .min(3)
         .max(2000)
         .trim()
@@ -21,7 +20,7 @@ export const productValidation = Joi.object({
         .required()
     ,
     price: Joi.number()
-        .precision(2)
+        .precision(4)
         .required()
     ,
     images: Joi.array()

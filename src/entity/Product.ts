@@ -16,7 +16,7 @@ export default class ProductEntity extends BaseEntity {
     @Column({ length: 2000 })
     description: string;
 
-    @Column({ nullable: false, scale: 2 })
+    @Column({ nullable: false })
     stock: number;
 
     @Column({ nullable: false })

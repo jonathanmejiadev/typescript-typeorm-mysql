@@ -46,8 +46,19 @@ export const createCart = async (req: Request, res: Response, next: NextFunction
     const userId = req.user;
     try {
         const createdCart = await userService.createCart(userId, {})
-        res.send({ msg: 'cart created', data: createdCart });
+        res.status(201).json({ success: true, message: 'cart created', data: createdCart });
     } catch (err) {
         next(err)
     }
-}
+};
+
+export const addProductToCart = async (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.user;
+    const { productId, quantity } = req.body;
+    try {
+        const order = await userService.addProductToCart(userId, productId, quantity);
+        res.status(200).json({ success: true, message: 'Product added to user cart', data: order });
+    } catch (err) {
+        next(err)
+    }
+};
