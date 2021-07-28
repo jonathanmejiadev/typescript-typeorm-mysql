@@ -63,7 +63,8 @@ export const getCart = async (req: Request, res: Response, next: NextFunction) =
 }
 export const addProductToCart = async (req: Request, res: Response, next: NextFunction) => {
     const userId = req.user;
-    const { productId, quantity } = req.body;
+    const productId = Number(req.params.productId);
+    const { quantity } = req.body;
     try {
         const order = await userService.addProductToCart(userId, productId, quantity);
         res.status(200).json({ success: true, message: 'Product added to user cart', data: order });

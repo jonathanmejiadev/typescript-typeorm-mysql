@@ -56,3 +56,4 @@ export const addProductToCart = async (userId: number, productId: number, quanti
     order.orderLines.push(savedOrderLine);
     return await Order.save(order);
 };
+
