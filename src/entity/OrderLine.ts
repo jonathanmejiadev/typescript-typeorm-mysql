@@ -16,7 +16,12 @@ export default class OrderLineEntity extends BaseEntity {
         scale: 2,
         nullable: false
     })
-    price: number;
+    pricePerUnit: number;
+
+    @Column({
+        nullable: false
+    })
+    totalPrice: number;
 
     @ManyToOne(() => Order, order => order.orderLines, { onDelete: 'CASCADE' })
     @JoinColumn()

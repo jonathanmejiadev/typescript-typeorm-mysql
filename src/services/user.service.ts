@@ -36,7 +36,7 @@ export const createCart = async (userId: number, cart: object) => {
 
 export const getCart = async (userId: number) => {
     return await Order.findOne({ where: { userId, status: 'on_cart' }, relations: ['orderLines'] });
-}
+};
 
 export const addProductToCart = async (userId: number, productId: number, quantity: number) => {
     let order = await Order.findOne({ where: { userId, status: 'on_cart' }, relations: ['orderLines'] });
@@ -47,10 +47,11 @@ export const addProductToCart = async (userId: number, productId: number, quanti
         order: order,
         productId,
         quantity,
-        price: product.price * quantity
+        pricePerUnit: product.price,
+        totalPrice: product.price * quantity
     });
     console.log(order);
     const savedOrderLine = await OrderLine.save(createdOrderLine);
     order.orderLines.push(savedOrderLine);
     return await Order.save(order);
-}
+};
