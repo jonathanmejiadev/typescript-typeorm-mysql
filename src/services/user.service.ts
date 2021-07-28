@@ -52,6 +52,7 @@ export const addProductToCart = async (userId: number, productId: number, quanti
     });
     console.log(order);
     const savedOrderLine = await OrderLine.save(createdOrderLine);
+    order.total += createdOrderLine.totalPrice;
     order.orderLines.push(savedOrderLine);
     return await Order.save(order);
 };
