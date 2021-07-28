@@ -2,6 +2,7 @@ import * as userRepo from '../repositories/user.repository';
 import { NotFound } from '@curveball/http-errors';
 import { IUser } from '../interfaces/user.interface';
 import Order from '../entity/Order';
+import User from '../entity/User'
 
 export const profile = async (userId: number) => {
     const user = await userRepo.findUser({ id: userId }, { select: ['id', 'username', 'email', 'wallet', 'roles'], relations: ['products'] });
@@ -24,8 +25,7 @@ export const depositToWallet = async (userId: number, cash: number) => {
     // return await userRepo.update(user, { wallet: deposit });
 };
 
-export const addToCart = async (userId: number, cart: object) => {
-    let order = await Order.find({ where: { userId } })
-    //console.log(foundedOrder);
-    //if (!order) order = await Order.create 
+export const createCart = async (userId: number, cart: object) => {
+    let orderData = { status: 'on_cart', total: 0 };
+    let order = await Order.create(orderData)
 }

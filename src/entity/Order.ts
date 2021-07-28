@@ -2,12 +2,6 @@ import { Column, PrimaryGeneratedColumn, BaseEntity, Entity, ManyToOne, JoinColu
 import User from './User';
 import OrderLine from './OrderLine';
 
-export enum Status {
-    ADMIN = "admin",
-    EDITOR = "editor",
-    GHOST = "ghost"
-}
-
 @Entity()
 export default class OrderEntity extends BaseEntity {
     @PrimaryGeneratedColumn()
@@ -23,7 +17,7 @@ export default class OrderEntity extends BaseEntity {
         enum: ['on_cart', 'created', 'processing', 'completed', 'cancelled'],
         nullable: false
     })
-    status: Status
+    status: string;
 
     @Column({
         default: 0
