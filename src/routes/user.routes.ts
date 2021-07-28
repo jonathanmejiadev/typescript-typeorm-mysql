@@ -60,4 +60,6 @@ userRouter.delete('/', userCtrl.deleteAccount);
 
 userRouter.put('/deposit', userCtrl.deposit);
 
+userRouter.post('/cart', userCtrl.createCart);
+
 export default userRouter;

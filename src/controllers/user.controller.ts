@@ -41,3 +41,13 @@ export const deposit = async (req: Request, res: Response, next: NextFunction) =
         next(err);
     };
 };
+
+export const createCart = async (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.user;
+    try {
+        const createdCart = await userService.createCart(userId, {})
+        res.send({ msg: 'cart created', data: createdCart });
+    } catch (err) {
+        next(err)
+    }
+}

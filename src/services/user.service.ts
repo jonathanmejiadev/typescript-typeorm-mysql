@@ -26,6 +26,7 @@ export const depositToWallet = async (userId: number, cash: number) => {
 };
 
 export const createCart = async (userId: number, cart: object) => {
-    let orderData = { status: 'on_cart', total: 0 };
-    let order = await Order.create(orderData)
+    let createdOrder = await Order.create({ userId, status: 'on_cart', total: 0 })
+    console.log(createdOrder);
+    return await Order.save(createdOrder);
 }
