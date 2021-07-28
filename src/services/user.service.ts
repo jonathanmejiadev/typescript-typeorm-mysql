@@ -41,7 +41,7 @@ export const addProductToCart = async (userId: number, productId: number, quanti
     let product = await Product.findOne({ id: productId });
     if (!product) return;
     let createdOrderLine = OrderLine.create({
-        orderId: order.id,
+        order: order,
         productId,
         quantity,
         price: product.price * quantity

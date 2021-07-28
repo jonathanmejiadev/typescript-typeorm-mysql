@@ -41,6 +41,6 @@ export default class OrderEntity extends BaseEntity {
     @JoinColumn({ name: 'userId' })
     user: User;
 
-    @OneToMany(() => OrderLine, order => order.orderId)
+    @OneToMany(() => OrderLine, orderLine => orderLine.order)
     orderLines: OrderLine[];
 };
