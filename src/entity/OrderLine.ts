@@ -3,7 +3,7 @@ import Order from './Order';
 import Product from './Product'
 
 @Entity()
-export default class CategoryEntity extends BaseEntity {
+export default class OrderLineEntity extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -18,11 +18,8 @@ export default class CategoryEntity extends BaseEntity {
     })
     price: number;
 
-    @Column()
-    orderId: number;
-
     @ManyToOne(() => Order, order => order.orderLines, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'orderId' })
+    @JoinColumn()
     order: Order;
 
     @Column()
