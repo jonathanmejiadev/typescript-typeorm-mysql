@@ -67,3 +67,17 @@ export const deleteProductFromCart = async (userId: number, orderLineId: number)
     order.total -= orderLine?.totalPrice
     return await Order.save(order);
 };
+
+export const updateProductFromCart = async (userId: number, orderLineId: number, quantity: number) => {
+    const orderLine = await OrderLine.findOne({ where: { id: orderLineId } });
+    if (!orderLine) throw new NotFound('OrderLine not found');
+    let oldOrderLineTotalPrice = orderLine.totalPrice;
+    orderLine.totalPrice = quantity * orderLine.pricePerUnit;
+    orderLine.quantity = quantity;
+    const updatedOrderLine = await OrderLine.save(orderLine);
+    let order = await Order.findOne({ where: { userId, status: 'on_cart' }, relations: ['orderLines'] });
+    if (!order) throw new NotFound('Order not found');
+    order.total -= oldOrderLineTotalPrice;
+    order.total += updatedOrderLine.totalPrice;
+    return await Order.save(order);
+}
