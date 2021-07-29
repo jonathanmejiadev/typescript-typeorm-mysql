@@ -7,8 +7,8 @@ export const save = async (product: IProductInput) => {
     return await productRepo.create(product);
 };
 
-export const getMyProducts = async (userId: number) => {
-    return await productRepo.getMyProducts(userId);
+export const getAllProducts = async (search: string) => {
+    return await productRepo.getAll(search);
 };
 
 export const get = async (productId: number) => {
@@ -42,6 +42,4 @@ export const remove = async (productId: number) => {
     }
 };
 
-export const getAllProducts = async () => {
-    return await productRepo.getAllProducts();
-};
+

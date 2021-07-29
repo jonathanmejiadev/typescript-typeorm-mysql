@@ -36,32 +36,7 @@ const productRouter = Router();
  *          '500':
  *              description: Server internal error.
  */
-productRouter.get('/all', productCtrl.allProducts);
-
-/**
- * @swagger
- * /products:
- *  get:
- *      tags: [Products]
- *      summary: Get current user products
- *      produces:
- *          - "application/json"
- *      description: Use to get all products of the current user (needs to be authenticated)
- *      parameters:
- *           - in: header
- *             name: Authorization
- *             type: string
- *             description: Bearer + Access Token  
- *             required: true
- *      responses:
- *          '200':
- *              description: OK.
- *          '401':
- *              description: Unauthorized.
- *          '500':
- *              description: Server internal error.
- */
-productRouter.get('/', isModerator, productCtrl.getProducts);
+productRouter.get('/', productCtrl.allProducts);
 
 /**
  * @swagger

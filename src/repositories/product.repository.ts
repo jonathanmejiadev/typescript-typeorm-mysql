@@ -6,10 +6,6 @@ export const create = async (product: IProductInput) => {
     return await Product.save(createdProduct);
 };
 
-export const getMyProducts = async (userId: number) => {
-    return await Product.find();
-};
-
 export const getById = async (productId: number) => {
     return await Product.findOne(productId);
 };
@@ -24,6 +20,6 @@ export const remove = async (productId: number) => {
     return await Product.delete(productId);
 };
 
-export const getAllProducts = async () => {
-    return await Product.find();
+export const getAll = async (search: string) => {
+    return await Product.find({ where: `name like '%${search}%'` });
 };

@@ -5,7 +5,6 @@ import * as productService from '../services/product.service';
 export const createProduct = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const newProduct: IProductInput = { ...req.body };
-        newProduct.ownerId = req.user;
         const savedProduct = await productService.save(newProduct);
         return res.status(201).json({ success: 'true', message: 'Product has been saved', data: savedProduct });
     }
@@ -14,10 +13,11 @@ export const createProduct = async (req: Request, res: Response, next: NextFunct
     };
 };
 
-export const getProducts = async (req: Request, res: Response, next: NextFunction) => {
+export const allProducts = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const userId = req.user;
-        const products = await productService.getMyProducts(userId);
+        let { search } = req.query;
+        if (!search) search = '';
+        const products = await productService.getAllProducts(search.toString());
         return res.status(200).json({ success: true, data: products });
     } catch (err) {
         next(err);
@@ -55,11 +55,3 @@ export const deleteProduct = async (req: Request, res: Response, next: NextFunct
     };
 };
 
-export const allProducts = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const products = await productService.getAllProducts();
-        return res.status(200).json({ success: true, data: products });
-    } catch (err) {
-        next(err);
-    };
-};
