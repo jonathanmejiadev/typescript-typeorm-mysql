@@ -4,10 +4,13 @@ import { isAdmin, isModerator, productValidationMw } from '../middlewares';
 
 const productRouter = Router();
 
+
 productRouter.get('/categories', productCtrl.getCategories);
 productRouter.get('/categories/:id', productCtrl.getCategory);
 productRouter.post('/categories', productCtrl.createCategory);
 productRouter.delete('/categories/:id', productCtrl.deleteCategory);
+
+productRouter.get('/:productId/categories/:categoryId', productCtrl.addToCategory);
 
 
 /**

@@ -97,3 +97,13 @@ export const getCategory = async (req: Request, res: Response, next: NextFunctio
         next(err);
     };
 };
+
+export const addToCategory = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { productId, categoryId } = req.params;
+        const result = await productService.addToCategory(Number(productId), Number(categoryId));
+        return res.status(200).json({ success: true, data: result });
+    } catch (err) {
+        next(err);
+    };
+};

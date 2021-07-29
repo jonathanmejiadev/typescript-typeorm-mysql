@@ -28,7 +28,7 @@ export default class ProductEntity extends BaseEntity {
     @OneToMany(() => Review, review => review.productId)
     reviews: Review[];
 
-    @ManyToMany(() => Category)
+    @ManyToMany(() => Category, { cascade: true })
     @JoinTable()
     categories: Category[];
 };
