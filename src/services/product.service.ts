@@ -19,7 +19,7 @@ export const getAllProducts = async (search: string) => {
 
 export const get = async (productId: number) => {
     try {
-        const product = await productRepo.getById(productId);
+        const product = await Product.find({ where: { id: productId }, relations: ['categories'] });
         if (!product) throw new NotFound('Product not found');
         return product;
     } catch (err) {
@@ -77,7 +77,7 @@ export const getCategories = async () => {
 
 export const getCategory = async (categoryId: number) => {
     try {
-        return await Category.find({ where: { id: categoryId } });
+        return await Category.find({ where: { id: categoryId }, relations: ['products'] });
     } catch (err) {
         throw err;
     };
@@ -104,4 +104,4 @@ export const deleteCategoryFromProduct = async (productId: number, categoryId: n
     } catch (err) {
         throw err;
     };
-}
+};
