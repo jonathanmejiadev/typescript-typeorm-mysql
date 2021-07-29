@@ -4,6 +4,12 @@ import { isAdmin, isModerator, productValidationMw } from '../middlewares';
 
 const productRouter = Router();
 
+productRouter.get('/categories', productCtrl.getCategories);
+productRouter.get('/categories/:id', productCtrl.getCategory);
+productRouter.post('/categories', productCtrl.createCategory);
+productRouter.delete('/categories/:id', productCtrl.deleteCategory);
+
+
 /**
  * @swagger
  * tags:
@@ -157,10 +163,6 @@ productRouter.put('/:id', [isModerator, productValidationMw], productCtrl.update
  *              description: Server internal error.
  */
 productRouter.delete('/:id', isAdmin, productCtrl.deleteProduct);
-
-
-productRouter.post('/categories', productCtrl.createCategory);
-productRouter.delete('/categories/:id', productCtrl.deleteCategory);
 
 
 //Definitions (Models)

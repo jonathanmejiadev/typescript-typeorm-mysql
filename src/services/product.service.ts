@@ -65,3 +65,19 @@ export const deleteCategory = async (categoryId: number) => {
         throw err;
     };
 };
+
+export const getCategories = async () => {
+    try {
+        return await Category.find();
+    } catch (err) {
+        throw err;
+    };
+};
+
+export const getCategory = async (categoryId: number) => {
+    try {
+        return await Category.find({ where: { id: categoryId } });
+    } catch (err) {
+        throw err;
+    };
+};

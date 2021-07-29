@@ -73,4 +73,27 @@ export const deleteCategory = async (req: Request, res: Response, next: NextFunc
     } catch (err) {
         next(err);
     };
-}
+};
+
+export const getCategories = async (req: Request, res: Response, next: NextFunction) => {
+
+    try {
+        let { search } = req.query;
+        if (!search) search = '';
+        const categories = await productService.getCategories();
+        console.log('categories here')
+        return res.status(200).json({ success: true, data: categories });
+    } catch (err) {
+        next(err);
+    };
+};
+
+export const getCategory = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const categoryId = req.params.id;
+        const category = await productService.getCategory(Number(categoryId));
+        return res.status(200).json({ success: true, data: category });
+    } catch (err) {
+        next(err);
+    };
+};
