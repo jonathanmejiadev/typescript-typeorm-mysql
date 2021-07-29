@@ -101,8 +101,18 @@ export const getCategory = async (req: Request, res: Response, next: NextFunctio
 export const addToCategory = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { productId, categoryId } = req.params;
-        const result = await productService.addToCategory(Number(productId), Number(categoryId));
-        return res.status(200).json({ success: true, data: result });
+        const product = await productService.addToCategory(Number(productId), Number(categoryId));
+        return res.status(200).json({ success: true, data: product });
+    } catch (err) {
+        next(err);
+    };
+};
+
+export const deleteCategoryFromProduct = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { productId, categoryId } = req.params;
+        const product = await productService.deleteCategoryFromProduct(Number(productId), Number(categoryId));
+        return res.status(200).json({ success: true, data: product });
     } catch (err) {
         next(err);
     };

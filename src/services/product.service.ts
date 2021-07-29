@@ -85,7 +85,7 @@ export const getCategory = async (categoryId: number) => {
 
 export const addToCategory = async (productId: number, categoryId: number) => {
     try {
-        const [product, category] = await Promise.all([await Product.findOne({ relations: ['categories'] }), await Category.findOne({ where: { id: categoryId } })]);
+        const [product, category] = await Promise.all([await Product.findOne({ where: { id: productId }, relations: ['categories'] }), await Category.findOne({ where: { id: categoryId } })]);
         if (!product) throw new NotFound('Product not found');
         if (!category) throw new NotFound('Category not found');
         product.categories.push(category);
@@ -94,3 +94,14 @@ export const addToCategory = async (productId: number, categoryId: number) => {
         throw err;
     };
 };
+
+export const deleteCategoryFromProduct = async (productId: number, categoryId: number) => {
+    try {
+        let product = await Product.findOne({ where: { id: productId }, relations: ['categories'] });
+        if (!product) throw new NotFound('Product not found');
+        product.categories = product.categories.filter(category => category.id !== categoryId);
+        return await Product.save(product);
+    } catch (err) {
+        throw err;
+    };
+}
