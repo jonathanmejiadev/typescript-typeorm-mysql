@@ -41,7 +41,7 @@ export const createCart = async (userId: number) => {
 
 export const getCart = async (userId: number) => {
     try {
-        return await Order.findOne({ where: { userId, status: 'on_cart' }, relations: ['orderLines'] });
+        return await Order.findOne({ where: { userId, status: 'on_cart' } });
     } catch (err) {
         throw err;
     }
