@@ -29,14 +29,14 @@ export const depositToWallet = async (userId: number, cash: number) => {
 
 export const createCart = async (userId: number) => {
     try {
-        const order = await Order.findOne({ where: { userId, status: 'on_cart' }, relations: ['orderLines'] });
+        const order = await Order.findOne({ where: { userId, status: 'on_cart' } });
         if (order) return order;
         let createdOrder = Order.create({ userId, status: 'on_cart', total: 0 })
         createdOrder.orderLines = [];
         return await Order.save(createdOrder);
     } catch (err) {
         throw err;
-    }
+    };
 };
 
 export const getCart = async (userId: number) => {
@@ -44,13 +44,13 @@ export const getCart = async (userId: number) => {
         return await Order.findOne({ where: { userId, status: 'on_cart' } });
     } catch (err) {
         throw err;
-    }
+    };
 };
 
 export const addProductToCart = async (userId: number, productId: number, quantity: number) => {
     try {
         if (!(quantity >= 1)) throw new BadRequest('Quantity must be greater than one');
-        let order = await Order.findOne({ where: { userId, status: 'on_cart' }, relations: ['orderLines'] });
+        let order = await Order.findOne({ where: { userId, status: 'on_cart' } });
         if (!order) throw new NotFound('Order not found');
         let product = await Product.findOne({ id: productId });
         if (!product) throw new NotFound('Product not found');
@@ -67,7 +67,7 @@ export const addProductToCart = async (userId: number, productId: number, quanti
         return await Order.save(order);
     } catch (err) {
         throw err;
-    }
+    };
 };
 
 export const deleteProductFromCart = async (userId: number, orderLineId: number) => {
@@ -75,13 +75,13 @@ export const deleteProductFromCart = async (userId: number, orderLineId: number)
         const orderLine = await OrderLine.findOne({ where: { id: orderLineId } });
         if (!orderLine) throw new NotFound('OrderLine not found');
         await OrderLine.delete(orderLineId);
-        let order = await Order.findOne({ where: { userId, status: 'on_cart' }, relations: ['orderLines'] });
+        let order = await Order.findOne({ where: { userId, status: 'on_cart' } });
         if (!order) throw new NotFound('Order not found');
         order.total -= orderLine?.totalPrice
         return await Order.save(order);
     } catch (err) {
         throw err;
-    }
+    };
 };
 
 export const updateProductFromCart = async (userId: number, orderLineId: number, quantity: number) => {
@@ -92,12 +92,25 @@ export const updateProductFromCart = async (userId: number, orderLineId: number,
         orderLine.totalPrice = quantity * orderLine.pricePerUnit;
         orderLine.quantity = quantity;
         const updatedOrderLine = await OrderLine.save(orderLine);
-        let order = await Order.findOne({ where: { userId, status: 'on_cart' }, relations: ['orderLines'] });
+        let order = await Order.findOne({ where: { userId, status: 'on_cart' } });
         if (!order) throw new NotFound('Order not found');
         order.total -= oldOrderLineTotalPrice;
         order.total += updatedOrderLine.totalPrice;
         return await Order.save(order);
     } catch (err) {
         throw err;
-    }
-}
+    };
+};
+
+export const getEmptyCart = async (userId: number) => {
+    try {
+        let order = await Order.findOne({ where: { userId, status: 'on_cart' } });
+        if (!order) throw new NotFound('Order not found');
+        await Promise.all(order.orderLines.map(async orderLine => await OrderLine.delete(orderLine.id)));
+        order.total = 0;
+        order.orderLines = [];
+        return await Order.save(order);
+    } catch (err) {
+        throw err;
+    };
+};

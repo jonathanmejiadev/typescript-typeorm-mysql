@@ -63,6 +63,7 @@ userRouter.put('/deposit', userCtrl.deposit);
 userRouter.post('/cart', userCtrl.createCart);
 
 userRouter.get('/cart', userCtrl.getCart);
+userRouter.delete('/cart', userCtrl.getEmptyCart);
 
 userRouter.post('/cart/:productId', userCtrl.addProductToCart);
 userRouter.delete('/cart/:orderLineId', userCtrl.deleteProductFromCart);

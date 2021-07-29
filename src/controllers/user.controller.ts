@@ -49,7 +49,7 @@ export const createCart = async (req: Request, res: Response, next: NextFunction
         res.status(201).json({ success: true, message: 'cart created', data: createdCart });
     } catch (err) {
         next(err)
-    }
+    };
 };
 
 export const getCart = async (req: Request, res: Response, next: NextFunction) => {
@@ -59,8 +59,9 @@ export const getCart = async (req: Request, res: Response, next: NextFunction) =
         res.status(200).json({ success: true, data: cart });
     } catch (err) {
         next(err)
-    }
-}
+    };
+};
+
 export const addProductToCart = async (req: Request, res: Response, next: NextFunction) => {
     const userId = req.user;
     const productId = Number(req.params.productId);
@@ -70,7 +71,7 @@ export const addProductToCart = async (req: Request, res: Response, next: NextFu
         res.status(200).json({ success: true, message: 'Product added to user cart', data: order });
     } catch (err) {
         next(err)
-    }
+    };
 };
 
 export const deleteProductFromCart = async (req: Request, res: Response, next: NextFunction) => {
@@ -81,8 +82,8 @@ export const deleteProductFromCart = async (req: Request, res: Response, next: N
         res.status(200).json({ success: true, message: 'Product deleted from cart', data: order });
     } catch (err) {
         next(err)
-    }
-}
+    };
+};
 
 export const updateProductFromCart = async (req: Request, res: Response, next: NextFunction) => {
     const userId = req.user;
@@ -93,5 +94,15 @@ export const updateProductFromCart = async (req: Request, res: Response, next: N
         res.status(200).json({ success: true, message: 'Product updated from cart', data: order });
     } catch (err) {
         next(err)
-    }
-}
+    };
+};
+
+export const getEmptyCart = async (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.user;
+    try {
+        const cart = await userService.getEmptyCart(userId);
+        res.status(200).json({ success: true, data: cart });
+    } catch (err) {
+        next(err)
+    };
+};
