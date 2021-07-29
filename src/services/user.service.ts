@@ -86,6 +86,7 @@ export const deleteProductFromCart = async (userId: number, orderLineId: number)
 
 export const updateProductFromCart = async (userId: number, orderLineId: number, quantity: number) => {
     try {
+        if (!(quantity >= 1)) throw new BadRequest('Quantity must be greater than one');
         const orderLine = await OrderLine.findOne({ where: { id: orderLineId } });
         if (!orderLine) throw new NotFound('OrderLine not found');
         let oldOrderLineTotalPrice = orderLine.totalPrice;
