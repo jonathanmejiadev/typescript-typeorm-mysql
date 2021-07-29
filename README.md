@@ -1,5 +1,7 @@
 # Market API REST
 
+Currently, this API is being redesigned to become an e-commerce. 29/07/21
+
 Market API is an application that allows you to register users with email confirmation, users login, get profile, delete account, perform CRUD operations on products based on user roles, and get all products from other users.
 
 Build with: TypeScript, NodeJs, Express, TypeORM and MySQL.
