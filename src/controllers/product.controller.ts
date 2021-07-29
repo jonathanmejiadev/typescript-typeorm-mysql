@@ -55,3 +55,22 @@ export const deleteProduct = async (req: Request, res: Response, next: NextFunct
     };
 };
 
+export const createCategory = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { name, description } = req.body;
+        const savedCategory = await productService.createCategory(name, description);
+        return res.status(201).json({ success: 'true', message: 'Product has been saved', data: savedCategory });
+    } catch (err) {
+        next(err);
+    };
+};
+
+export const deleteCategory = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const categoryId = req.params.id;
+        const deletedCategory = await productService.deleteCategory(Number(categoryId));
+        return res.status(201).json({ success: 'true', message: 'Category has been deleted', data: deletedCategory });
+    } catch (err) {
+        next(err);
+    };
+}

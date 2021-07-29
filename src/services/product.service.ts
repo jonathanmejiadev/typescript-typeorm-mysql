@@ -1,6 +1,7 @@
 import * as productRepo from '../repositories/product.repository';
 import { IProduct, IProductInput } from '../interfaces/product.interface';
 import { NotFound } from '@curveball/http-errors';
+import Category from '../entity/Category';
 
 
 export const save = async (product: IProductInput) => {
@@ -42,4 +43,25 @@ export const remove = async (productId: number) => {
     }
 };
 
+export const addToCategory = async () => {
 
+};
+
+export const createCategory = async (name: string, description: string) => {
+    try {
+        const createdCategory = Category.create({ name, description })
+        return await Category.save(createdCategory)
+    } catch (err) {
+        throw err;
+    };
+};
+
+export const deleteCategory = async (categoryId: number) => {
+    try {
+        const deletedCategory = await Category.delete(categoryId);
+        if (!deletedCategory.affected) throw new NotFound('Category not found');
+        return deletedCategory;
+    } catch (err) {
+        throw err;
+    };
+};

@@ -158,6 +158,11 @@ productRouter.put('/:id', [isModerator, productValidationMw], productCtrl.update
  */
 productRouter.delete('/:id', isAdmin, productCtrl.deleteProduct);
 
+
+productRouter.post('/categories', productCtrl.createCategory);
+productRouter.delete('/categories/:id', productCtrl.deleteCategory);
+
+
 //Definitions (Models)
 
 /**
