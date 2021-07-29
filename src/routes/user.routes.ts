@@ -69,4 +69,6 @@ userRouter.post('/cart/:productId', userCtrl.addProductToCart);
 userRouter.delete('/cart/:orderLineId', userCtrl.deleteProductFromCart);
 userRouter.put('/cart/:orderLineId', userCtrl.updateProductFromCart);
 
+userRouter.get('/orders', userCtrl.getUserOrders);
+
 export default userRouter;

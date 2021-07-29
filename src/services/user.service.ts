@@ -114,3 +114,7 @@ export const getEmptyCart = async (userId: number) => {
         throw err;
     };
 };
+
+export const getUserOrders = async (userId: number) => {
+    return await Order.find({ where: { userId } });
+};

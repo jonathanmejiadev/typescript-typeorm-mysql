@@ -48,7 +48,7 @@ export const createCart = async (req: Request, res: Response, next: NextFunction
         const createdCart = await userService.createCart(userId)
         res.status(201).json({ success: true, message: 'cart created', data: createdCart });
     } catch (err) {
-        next(err)
+        next(err);
     };
 };
 
@@ -58,7 +58,7 @@ export const getCart = async (req: Request, res: Response, next: NextFunction) =
         const cart = await userService.getCart(userId);
         res.status(200).json({ success: true, data: cart });
     } catch (err) {
-        next(err)
+        next(err);
     };
 };
 
@@ -70,7 +70,7 @@ export const addProductToCart = async (req: Request, res: Response, next: NextFu
         const order = await userService.addProductToCart(userId, productId, quantity);
         res.status(200).json({ success: true, message: 'Product added to user cart', data: order });
     } catch (err) {
-        next(err)
+        next(err);
     };
 };
 
@@ -81,7 +81,7 @@ export const deleteProductFromCart = async (req: Request, res: Response, next: N
         const order = await userService.deleteProductFromCart(userId, orderLineId);
         res.status(200).json({ success: true, message: 'Product deleted from cart', data: order });
     } catch (err) {
-        next(err)
+        next(err);
     };
 };
 
@@ -93,7 +93,7 @@ export const updateProductFromCart = async (req: Request, res: Response, next: N
         const order = await userService.updateProductFromCart(userId, orderLineId, quantity);
         res.status(200).json({ success: true, message: 'Product updated from cart', data: order });
     } catch (err) {
-        next(err)
+        next(err);
     };
 };
 
@@ -103,6 +103,16 @@ export const getEmptyCart = async (req: Request, res: Response, next: NextFuncti
         const cart = await userService.getEmptyCart(userId);
         res.status(200).json({ success: true, data: cart });
     } catch (err) {
-        next(err)
+        next(err);
+    };
+};
+
+export const getUserOrders = async (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.user;
+    try {
+        const orders = await userService.getUserOrders(userId);
+        res.status(200).json({ success: true, data: orders });
+    } catch (err) {
+        next(err);
     };
 };

@@ -30,7 +30,7 @@ export default class OrderLineEntity extends BaseEntity {
     @Column()
     productId: number;
 
-    @OneToOne(() => Product)
+    @OneToOne(() => Product, { eager: true })
     @JoinColumn({ name: 'productId' })
     product: Product;
 };
