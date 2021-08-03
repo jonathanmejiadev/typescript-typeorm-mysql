@@ -1,5 +1,4 @@
 import { Column, PrimaryGeneratedColumn, BaseEntity, Entity, ManyToOne, OneToMany, JoinColumn, ManyToMany, JoinTable } from 'typeorm';
-import User from './User';
 import Review from './Review';
 import Category from './Category';
 
@@ -25,7 +24,7 @@ export default class ProductEntity extends BaseEntity {
     @Column("simple-array")
     images: string[];
 
-    @OneToMany(() => Review, review => review.productId)
+    @OneToMany(() => Review, review => review.product)
     reviews: Review[];
 
     @ManyToMany(() => Category, category => category.products, { cascade: true })

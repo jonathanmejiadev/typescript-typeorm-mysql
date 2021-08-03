@@ -23,10 +23,6 @@ export default class ReviewEntity extends BaseEntity {
     })
     description: string
 
-    @Column()
-    productId: number;
-
     @ManyToOne(() => Product, product => product.reviews, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'productId' })
     product: Product;
 };

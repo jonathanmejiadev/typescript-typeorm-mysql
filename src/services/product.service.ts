@@ -3,6 +3,7 @@ import { IProduct, IProductInput } from '../interfaces/product.interface';
 import { NotFound } from '@curveball/http-errors';
 import Category from '../entity/Category';
 import Product from '../entity/Product';
+import Review from '../entity/Review';
 
 
 export const save = async (product: IProductInput) => {
@@ -19,7 +20,7 @@ export const getAllProducts = async (search: string) => {
 
 export const get = async (productId: number) => {
     try {
-        const product = await Product.find({ where: { id: productId }, relations: ['categories'] });
+        const product = await Product.find({ where: { id: productId }, relations: ['categories', 'reviews'] });
         if (!product) throw new NotFound('Product not found');
         return product;
     } catch (err) {
@@ -100,6 +101,27 @@ export const deleteCategoryFromProduct = async (productId: number, categoryId: n
         let product = await Product.findOne({ where: { id: productId }, relations: ['categories'] });
         if (!product) throw new NotFound('Product not found');
         product.categories = product.categories.filter(category => category.id !== categoryId);
+        return await Product.save(product);
+    } catch (err) {
+        throw err;
+    };
+};
+
+export const createReview = async (review: object) => {
+    try {
+        const createdReview = Review.create(review);
+        return await Review.save(createdReview);
+    } catch (err) {
+        throw err;
+    };
+};
+
+export const AddReviewToProduct = async (productId: number, review: object) => {
+    try {
+        const product = await Product.findOne({ where: { id: productId }, relations: ['reviews'] })
+        if (!product) throw new NotFound('Product not found');
+        const savedReview = await createReview(review);
+        product.reviews.push(savedReview);
         return await Product.save(product);
     } catch (err) {
         throw err;
