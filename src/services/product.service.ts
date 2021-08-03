@@ -127,3 +127,13 @@ export const AddReviewToProduct = async (productId: number, review: object) => {
         throw err;
     };
 };
+
+export const deleteReview = async (reviewId: number) => {
+    try {
+        const deletedReview = await Review.delete(reviewId);
+        if (!deletedReview.affected) throw new NotFound('Category not found');
+        return deletedReview;
+    } catch (err) {
+        throw err;
+    };
+};

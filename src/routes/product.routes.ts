@@ -15,6 +15,8 @@ productRouter.delete('/:productId/categories/:categoryId', productCtrl.deleteCat
 
 productRouter.post('/:productId/reviews', productCtrl.createReviewAndAddToProduct);
 
+productRouter.delete('/reviews/:id', productCtrl.deleteReview);
+
 /**
  * @swagger
  * tags:

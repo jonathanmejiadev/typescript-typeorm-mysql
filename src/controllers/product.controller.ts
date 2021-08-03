@@ -127,4 +127,14 @@ export const createReviewAndAddToProduct = async (req: Request, res: Response, n
     } catch (err) {
         next(err);
     };
-}
+};
+
+export const deleteReview = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { id } = req.params;
+        const deletedReview = await productService.deleteReview(Number(id));
+        return res.status(200).json({ success: true, message: 'Review has been deleted', data: deletedReview });
+    } catch (err) {
+        next(err);
+    };
+};
