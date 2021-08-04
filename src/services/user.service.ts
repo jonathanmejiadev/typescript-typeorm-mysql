@@ -5,6 +5,7 @@ import Order from '../entity/Order';
 import User from '../entity/User'
 import Product from '../entity/Product';
 import OrderLine from '../entity/OrderLine';
+import { IOrderLineInput } from '../interfaces/orderLine.interface';
 
 export const profile = async (userId: number) => {
     const user = await userRepo.findUser({ id: userId }, { select: ['id', 'username', 'email', 'wallet', 'roles'], relations: ['products'] });
@@ -47,6 +48,21 @@ export const getCart = async (userId: number) => {
     };
 };
 
+export const createOrderLine = async ({ order, productId, quantity, pricePerUnit, totalPrice }: IOrderLineInput) => {
+    try {
+        let createdOrderLine = OrderLine.create({
+            order,
+            productId,
+            quantity,
+            pricePerUnit,
+            totalPrice
+        });
+        return await OrderLine.save(createdOrderLine);
+    } catch (err) {
+        throw err;
+    }
+};
+
 export const addProductToCart = async (userId: number, productId: number, quantity: number) => {
     try {
         if (!(quantity >= 1)) throw new BadRequest('Quantity must be greater than one');
@@ -54,15 +70,15 @@ export const addProductToCart = async (userId: number, productId: number, quanti
         if (!order) throw new NotFound('Order not found');
         let product = await Product.findOne({ id: productId });
         if (!product) throw new NotFound('Product not found');
-        let createdOrderLine = OrderLine.create({
-            order: order,
+        let orderLine = {
+            order,
             productId,
             quantity,
             pricePerUnit: product.price,
             totalPrice: product.price * quantity
-        });
-        const savedOrderLine = await OrderLine.save(createdOrderLine);
-        order.total += createdOrderLine.totalPrice;
+        };
+        const savedOrderLine = await createOrderLine(orderLine)
+        order.total += savedOrderLine.totalPrice;
         order.orderLines.push(savedOrderLine);
         return await Order.save(order);
     } catch (err) {
