@@ -1,5 +1,6 @@
 import * as productRepo from '../repositories/product.repository';
 import { IProduct, IProductInput } from '../interfaces/product.interface';
+import { IReviewInput } from '../interfaces/review.interface';
 import { NotFound } from '@curveball/http-errors';
 import Category from '../entity/Category';
 import Product from '../entity/Product';
@@ -107,7 +108,7 @@ export const deleteCategoryFromProduct = async (productId: number, categoryId: n
     };
 };
 
-export const createReview = async (review: object) => {
+export const createReview = async (review: IReviewInput) => {
     try {
         const createdReview = Review.create(review);
         return await Review.save(createdReview);
@@ -116,7 +117,7 @@ export const createReview = async (review: object) => {
     };
 };
 
-export const AddReviewToProduct = async (productId: number, review: object) => {
+export const AddReviewToProduct = async (productId: number, review: IReviewInput) => {
     try {
         const product = await Product.findOne({ where: { id: productId }, relations: ['reviews'] })
         if (!product) throw new NotFound('Product not found');
