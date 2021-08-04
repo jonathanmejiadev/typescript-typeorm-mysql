@@ -8,6 +8,6 @@ const indexRouter = Router();
 
 indexRouter.use('/auth', authRouter);
 indexRouter.use('/users', [AuthGuard, AuthErrorHandler], userRouter);
-indexRouter.use('/products', [AuthGuard, AuthErrorHandler], productRouter);
+indexRouter.use('/products', productRouter); //[AuthGuard, AuthErrorHandler]
 
 export default indexRouter;

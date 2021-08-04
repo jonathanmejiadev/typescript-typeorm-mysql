@@ -1,21 +1,21 @@
 import { Router } from 'express';
 import * as productCtrl from '../controllers/product.controller';
-import { isAdmin, isModerator, productValidationMw } from '../middlewares';
+import { isAdmin, isModerator, productValidationMw, AuthGuard, AuthErrorHandler } from '../middlewares';
 
 const productRouter = Router();
 
 
 productRouter.get('/categories', productCtrl.getCategories);
 productRouter.get('/categories/:id', productCtrl.getCategory);
-productRouter.post('/categories', productCtrl.createCategory);
-productRouter.delete('/categories/:id', productCtrl.deleteCategory);
+productRouter.post('/categories', [AuthGuard, AuthErrorHandler, isModerator], productCtrl.createCategory);
+productRouter.delete('/categories/:id', [AuthGuard, AuthErrorHandler, isModerator], productCtrl.deleteCategory);
 
-productRouter.post('/:productId/categories/:categoryId', productCtrl.addToCategory);
-productRouter.delete('/:productId/categories/:categoryId', productCtrl.deleteCategoryFromProduct);
+productRouter.post('/:productId/categories/:categoryId', [AuthGuard, AuthErrorHandler, isModerator], productCtrl.addToCategory);
+productRouter.delete('/:productId/categories/:categoryId', [AuthGuard, AuthErrorHandler, isModerator], productCtrl.deleteCategoryFromProduct);
 
-productRouter.post('/:productId/reviews', productCtrl.createReviewAndAddToProduct);
+productRouter.post('/:productId/reviews', [AuthGuard, AuthErrorHandler], productCtrl.createReviewAndAddToProduct);
 
-productRouter.delete('/reviews/:id', productCtrl.deleteReview);
+productRouter.delete('/reviews/:id', [AuthGuard, AuthErrorHandler, isModerator], productCtrl.deleteReview);
 
 /**
  * @swagger
@@ -78,7 +78,7 @@ productRouter.get('/', productCtrl.allProducts);
  *          '500':
  *              description: Server internal error.
  */
-productRouter.post('/', [isModerator, productValidationMw], productCtrl.createProduct);
+productRouter.post('/', [AuthGuard, AuthErrorHandler, isModerator, productValidationMw], productCtrl.createProduct);
 
 /**
  * @swagger
@@ -107,7 +107,7 @@ productRouter.post('/', [isModerator, productValidationMw], productCtrl.createPr
  *          '500':
  *              description: Server internal error.
  */
-productRouter.get('/:id', isModerator, productCtrl.getProduct);
+productRouter.get('/:id', productCtrl.getProduct);
 
 /**
  * @swagger
@@ -140,7 +140,7 @@ productRouter.get('/:id', isModerator, productCtrl.getProduct);
  *          '500':
  *              description: Server internal error.
  */
-productRouter.put('/:id', [isModerator, productValidationMw], productCtrl.updateProduct);
+productRouter.put('/:id', [AuthGuard, AuthErrorHandler, isModerator, productValidationMw], productCtrl.updateProduct);
 
 /**
  * @swagger
@@ -169,7 +169,7 @@ productRouter.put('/:id', [isModerator, productValidationMw], productCtrl.update
  *          '500':
  *              description: Server internal error.
  */
-productRouter.delete('/:id', isAdmin, productCtrl.deleteProduct);
+productRouter.delete('/:id', [AuthGuard, AuthErrorHandler, isAdmin], productCtrl.deleteProduct);
 
 
 //Definitions (Models)
