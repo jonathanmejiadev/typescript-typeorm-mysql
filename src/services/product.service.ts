@@ -5,6 +5,7 @@ import { NotFound } from '@curveball/http-errors';
 import Category from '../entity/Category';
 import Product from '../entity/Product';
 import Review from '../entity/Review';
+import { ICategoryInput } from '../interfaces/category.interface';
 
 
 export const save = async (product: IProductInput) => {
@@ -50,9 +51,9 @@ export const remove = async (productId: number) => {
     }
 };
 
-export const createCategory = async (name: string, description: string) => {
+export const createCategory = async (category: ICategoryInput) => {
     try {
-        const createdCategory = Category.create({ name, description })
+        const createdCategory = Category.create(category)
         return await Category.save(createdCategory)
     } catch (err) {
         throw err;
