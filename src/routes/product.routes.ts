@@ -10,7 +10,7 @@ productRouter.get('/categories/:id', productCtrl.getCategory);
 productRouter.post('/categories', productCtrl.createCategory);
 productRouter.delete('/categories/:id', productCtrl.deleteCategory);
 
-productRouter.get('/:productId/categories/:categoryId', productCtrl.addToCategory);
+productRouter.post('/:productId/categories/:categoryId', productCtrl.addToCategory);
 productRouter.delete('/:productId/categories/:categoryId', productCtrl.deleteCategoryFromProduct);
 
 productRouter.post('/:productId/reviews', productCtrl.createReviewAndAddToProduct);
