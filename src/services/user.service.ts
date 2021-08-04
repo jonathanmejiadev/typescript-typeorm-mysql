@@ -135,3 +135,7 @@ export const getEmptyCart = async (userId: number) => {
 export const getUserOrders = async (userId: number) => {
     return await Order.find({ where: { userId } });
 };
+
+export const getUserOrder = async (userId: number, orderId: number) => {
+    return await Order.find({ where: { userId, id: orderId } });
+};

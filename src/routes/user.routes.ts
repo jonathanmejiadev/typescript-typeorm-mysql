@@ -70,5 +70,6 @@ userRouter.delete('/cart/:orderLineId', userCtrl.deleteProductFromCart);
 userRouter.put('/cart/:orderLineId', userCtrl.updateProductFromCart);
 
 userRouter.get('/orders', userCtrl.getUserOrders);
+userRouter.get('/orders/:id', userCtrl.getUserOrder);
 
 export default userRouter;

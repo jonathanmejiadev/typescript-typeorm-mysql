@@ -116,3 +116,14 @@ export const getUserOrders = async (req: Request, res: Response, next: NextFunct
         next(err);
     };
 };
+
+export const getUserOrder = async (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.user;
+    const { id } = req.params;
+    try {
+        const orders = await userService.getUserOrder(Number(userId), Number(id));
+        res.status(200).json({ success: true, data: orders });
+    } catch (err) {
+        next(err);
+    };
+};
