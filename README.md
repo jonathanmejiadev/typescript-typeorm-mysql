@@ -11,7 +11,7 @@ These instructions will get you a copy of the project up and running on your loc
 1. Clone the repo
 
 ```sh
-git clone https://github.com/jonathanmejia-ar/typescript-typeorm-mysql.git
+git clone https://github.com/jonathanmejiadev/typescript-typeorm-mysql.git
 ```
 
 2. Install NPM packages
