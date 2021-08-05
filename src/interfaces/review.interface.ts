@@ -1,5 +1,6 @@
 export interface IReviewInput {
     stars: string,
     title: string,
-    description: string
+    description: string,
+    username?: string
 };
