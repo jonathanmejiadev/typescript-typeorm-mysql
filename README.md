@@ -100,7 +100,7 @@ Can do everything a Auth User does and also:
 
 ### 🧙‍♂️ As a Admin
 
-Can do everything a moderator does and also:
+Can do everything a Moderator does and also:
 
 #### Users
 
