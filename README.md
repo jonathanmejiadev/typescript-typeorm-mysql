@@ -35,9 +35,9 @@ Running by default in `http://localhost:3000/api-docs`
 
 ## Features 🎯
 
-### 👥 As a Guest:
+### 👥 As a Guest
 
-#### Products:
+#### Products
 
 - See the complete list of products available to buy.
 - See the complete list of products filtered by category.
