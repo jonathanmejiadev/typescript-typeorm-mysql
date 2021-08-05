@@ -1,8 +1,4 @@
-# Market API REST
-
-Currently, this API is being redesigned to become an e-commerce. 29/07/21
-
-Market API is an application that allows you to register users with email confirmation, users login, get profile, delete account, perform CRUD operations on products based on user roles, and get all products from other users.
+# E-Commerce API REST
 
 Build with: TypeScript, NodeJs, Express, TypeORM and MySQL.
 
@@ -37,23 +33,79 @@ npm install
 
 Running by default in `http://localhost:3000/api-docs`
 
-## Routes and enpoints
+## Features 🎯
 
-### Auth
+### 👥 As a Guest:
 
-![auth](docs/images/auth.png)
+#### Products:
 
-### User
+- See the complete list of products available to buy.
+- See the complete list of products filtered by category.
+- Search products by words.
+- See a full product detail.
 
-![User](docs/images/user.png)
+#### Account
 
-### Products
+- Register an account.
+- Login an account.
 
-![products](docs/images/products.png)
+### 🧑 As a Authenticated User
 
-### Models
+Can do everything a Guest does and also:
 
-![models](docs/images/models.png)
+#### Account
+
+- Delete current account.
+- See profile account.
+
+#### Orders
+
+- See orders history.
+- See a complete detail of the order.
+
+#### Products
+
+- Post a product review.
+
+#### Cart
+
+- Can add a product to the cart.
+- Can remove a product from the cart.
+- Can modify a quantity of product in the cart.
+
+#### Checkout (To Implement)
+
+- Buy the products from the cart.
+
+### 🦸 As a Moderator
+
+Can do everything a Auth User does and also:
+
+#### Products
+
+- Can create, edit and delete products.
+- Can modify the stock of a product.
+- Can add or remove a product from a category.
+
+#### Categories
+
+- Can create, edit and delete categories.
+
+#### Orders
+
+- Can see orders list.
+- Can filter orders by status ( 'on_cart', 'created', 'processing', 'completed', 'cancelled' ).
+- See a complete detail of the order.
+- Can change the status of an order.
+
+### 🧙‍♂️ As a Admin
+
+Can do everything a moderator does and also:
+
+#### Users
+
+- Can make a user become an administrator.
+- Can ban a user.
 
 ## Dependencies 🛠️
 
