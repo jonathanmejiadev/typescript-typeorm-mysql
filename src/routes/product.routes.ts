@@ -4,12 +4,6 @@ import { isAdmin, isModerator, productValidationMw, AuthGuard, AuthErrorHandler 
 
 const productRouter = Router();
 
-
-productRouter.get('/categories', productCtrl.getCategories);
-productRouter.get('/categories/:id', productCtrl.getCategory);
-productRouter.post('/categories', [AuthGuard, AuthErrorHandler, isModerator], productCtrl.createCategory);
-productRouter.delete('/categories/:id', [AuthGuard, AuthErrorHandler, isModerator], productCtrl.deleteCategory);
-
 productRouter.post('/:productId/categories/:categoryId', [AuthGuard, AuthErrorHandler, isModerator], productCtrl.addToCategory);
 productRouter.delete('/:productId/categories/:categoryId', [AuthGuard, AuthErrorHandler, isModerator], productCtrl.deleteCategoryFromProduct);
 
