@@ -3,20 +3,25 @@ import { IUser, IUserInput } from '../interfaces/user.interface';
 
 export const save = async (user: IUserInput) => {
     const createdUser = User.create(user);
-    await User.save(createdUser);
-    return createdUser;
+    return await User.save(createdUser);
 };
 
-export const findUser = async (user: IUser, opts = {}) => {
-    return await User.findOne(user, opts);
+export const findById = async (userId: number) => {
+    return await User.findOne({ where: { id: userId } });
 };
 
-export const update = async (user: User, updateData: IUser) => {
-    let userMerge = user;
-    User.merge(userMerge, updateData);
-    return await User.save(userMerge);
+export const findOne = async (query: object) => {
+    return await User.findOne(query);
+}
+
+export const find = async (query: object = {}) => {
+    return await User.find(query);
 };
 
-export const remove = async (userId: number) => {
+export const update = async (user: User) => {
+    return await User.save(user);
+};
+
+export const deleteById = async (userId: number) => {
     return await User.delete(userId);
 };

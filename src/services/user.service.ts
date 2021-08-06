@@ -8,25 +8,27 @@ import OrderLine from '../entity/OrderLine';
 import { IOrderLineInput } from '../interfaces/orderLine.interface';
 
 export const profile = async (userId: number) => {
-    const user = await userRepo.findUser({ id: userId }, { select: ['id', 'username', 'email', 'wallet', 'roles'], relations: ['products'] });
+    const user = await userRepo.findOne({ where: { id: userId } });
     if (!user) throw new NotFound('User not found');
     return user;
 };
 
 export const deleteAccount = async (userId: number) => {
-    return await userRepo.remove(userId);
+    return await userRepo.deleteById(userId);
 };
 
-export const findUser = async (user: IUser, opts?: object) => {
-    return await userRepo.findUser(user, opts)
+export const findById = async (userId: number) => {
+    return await userRepo.findById(userId);
 };
 
-export const depositToWallet = async (userId: number, cash: number) => {
-    const user = await userRepo.findUser({ id: userId });
-    if (!user) throw new NotFound('User not found');
-    // const deposit = user.wallet + cash;
-    // return await userRepo.update(user, { wallet: deposit });
+export const findOne = async (query: object = {}) => {
+    return await userRepo.findOne(query);
 };
+
+export const findAll = async (query: object = {}) => {
+    return await userRepo.find(query);
+};
+
 
 export const createCart = async (userId: number) => {
     try {

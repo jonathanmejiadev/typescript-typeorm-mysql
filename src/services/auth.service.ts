@@ -21,9 +21,10 @@ export const confirmEmail = async (confirmCode: string) => {
     try {
         const confirmedUser = verifyToken(confirmCode);
         if (!confirmedUser) throw new Unauthorized('Invalid email token');
-        const user = await userRepo.findUser({ id: confirmedUser.id });
+        let user = await userRepo.findOne({ where: { id: confirmedUser.id } });
         if (!user) throw new NotFound('User not found');
-        await userRepo.update(user, { confirmed: true });
+        user.confirmed = true;
+        await userRepo.update(user);
         return;
     } catch (err) {
         throw err;
@@ -32,7 +33,7 @@ export const confirmEmail = async (confirmCode: string) => {
 
 export const login = async (username: string, password: string) => {
     try {
-        const user = await userRepo.findUser({ username });
+        const user = await userRepo.findOne({ where: { username } });
         if (!user) throw new Unauthorized('Incorrect username');
         if (!user.confirmed) throw new Unauthorized('Please confirm your account');
         const passwordMatch = await validatePassword(password, user.password);

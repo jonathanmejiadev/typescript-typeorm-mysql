@@ -31,11 +31,11 @@ export const deposit = async (req: Request, res: Response, next: NextFunction) =
     const userId = req.user;
     const { cash } = req.body;
     try {
-        const user = await userService.depositToWallet(userId, cash);
+        //const user = await userService.depositToWallet(userId, cash);
         return res.status(200).json({
             success: true,
             message: 'The transaction has been successful',
-            data: user
+            //data: user
         });
     } catch (err) {
         next(err);

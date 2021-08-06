@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import { UnprocessableEntity, Conflict } from '@curveball/http-errors';
-import { findUser } from '../services/user.service';
+import * as userService from '../services/user.service';
 
 export const checkUsernameEmailExists = async (req: Request, res: Response, next: NextFunction) => {
     const { username, email } = req.body;
     try {
-        const usernameTakenRes = findUser({ username: username }, { select: ['username'] });
-        const emailTakenRes = findUser({ email: email }, { select: ['email'] });
+        const usernameTakenRes = userService.findOne({ where: { username }, select: ['username'] });
+        const emailTakenRes = userService.findOne({ where: { email }, select: ['email'] });
         const [usernameTaken, emailTaken] = await Promise.all([usernameTakenRes, emailTakenRes]);
         if (usernameTaken && emailTaken) throw new Conflict('Username and Email already taken');
         if (usernameTaken) throw new Conflict('Username already taken');
