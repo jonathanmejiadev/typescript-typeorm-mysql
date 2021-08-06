@@ -14,12 +14,14 @@ export default class UserEntity extends BaseEntity {
     id: number;
 
     @Column({
-        nullable: false
+        nullable: false,
+        unique: true
     })
     username: string;
 
     @Column({
-        nullable: false
+        nullable: false,
+        unique: true
     })
     email: string;
 
