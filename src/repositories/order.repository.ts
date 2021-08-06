@@ -2,8 +2,8 @@ import Order from '../entity/Order';
 import { IOrderInput } from '../interfaces/order.interface';
 
 export const save = async (order: IOrderInput) => {
-    const createdCategory = Order.create(order);
-    return await Order.save(createdCategory);
+    const createdOrder = Order.create(order);
+    return await Order.save(createdOrder);
 };
 
 export const findById = async (orderId: number) => {
