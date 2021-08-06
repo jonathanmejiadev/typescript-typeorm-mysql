@@ -18,7 +18,16 @@ export default class ProductEntity extends BaseEntity {
     @Column({ nullable: false })
     stock: number;
 
-    @Column({ nullable: false })
+    @Column({
+        type: 'decimal', precision: 10, scale: 2, nullable: false, transformer: {
+            to(value) {
+                return value;
+            },
+            from(value) {
+                return parseFloat(value);
+            }
+        }
+    })
     price: number;
 
     @Column("simple-array")
