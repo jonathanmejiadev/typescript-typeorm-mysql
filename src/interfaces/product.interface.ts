@@ -2,11 +2,17 @@ export interface IProduct {
     id?: number;
     name?: string;
     stock?: number;
-    ownerId?: number;
+    description?: string;
+    price?: number;
+    images?: [];
+    reviews?: [];
+    categories?: [];
 };
 
 export interface IProductInput {
     name: string;
+    description: string;
     stock: number;
-    ownerId: number;
+    price: number;
+    images: [];
 };
