@@ -13,11 +13,15 @@ export const createProduct = async (product: IProductInput) => {
         return productRepo.save(product);
     } catch (err) {
         throw err;
-    }
+    };
 };
 
 export const getProducts = async (search: string) => {
-    return await productRepo.findAllWithSearch(search);
+    try {
+        return await productRepo.findAllWithSearch(search);
+    } catch (err) {
+        throw err;
+    };
 };
 
 export const getProduct = async (productId: number) => {
@@ -40,7 +44,7 @@ export const updateProduct = async (productId: number, updateData: IProduct) => 
         return await productRepo.update(product);
     } catch (err) {
         throw err;
-    }
+    };
 };
 
 export const deleteProduct = async (productId: number) => {
@@ -50,7 +54,7 @@ export const deleteProduct = async (productId: number) => {
         return;
     } catch (err) {
         throw err;
-    }
+    };
 };
 
 export const addToCategory = async (productId: number, categoryId: number) => {
