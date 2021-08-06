@@ -1,4 +1,4 @@
-const products = [
+export const products = [
     {
         "name": "AMD Ryzen 5 3600XT 6-Core 3.8 GHz Socket AM4 95W",
         "description": "3rd Gen Ryzen, Socket AM4, Max Boost Frequency 4.5 GHz, DDR4 Support, Cache 35MB, Thermal Design Power 95W, With Wraith Spire cooler",
@@ -824,7 +824,7 @@ const products = [
     }
 ];
 
-const categories = [
+export const categories = [
     {
         "name": "CPU",
         "description": "In this category you can find the best cpu"
@@ -858,8 +858,3 @@ const categories = [
         "description": "Make your pc more beautiful with these cases"
     }
 ];
-
-module.exports = {
-    products,
-    categories
-};
