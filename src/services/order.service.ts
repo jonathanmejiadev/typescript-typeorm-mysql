@@ -12,7 +12,7 @@ export const getOrders = async (status: string) => {
 
 export const getOrder = async (orderId: number) => {
     try {
-        const order = await orderRepo.find({ where: { id: orderId } });
+        const order = await orderRepo.findOne({ where: { id: orderId } });
         if (!order) throw new NotFound('Order not found');
         return order;
     } catch (err) {
