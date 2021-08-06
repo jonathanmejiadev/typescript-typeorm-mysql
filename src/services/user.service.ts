@@ -1,8 +1,5 @@
 import * as userRepo from '../repositories/user.repository';
 import { NotFound, BadRequest } from '@curveball/http-errors';
-import Order from '../entity/Order';
-import Product from '../entity/Product';
-import OrderLine from '../entity/OrderLine';
 import { IOrderLineInput } from '../interfaces/orderLine.interface';
 import * as orderRepo from '../repositories/order.repository';
 import * as orderLineRepo from '../repositories/orderLine.repository';
@@ -69,7 +66,7 @@ export const addProductToCart = async (userId: number, productId: number, quanti
         if (!(quantity >= 1)) throw new BadRequest('Quantity must be greater than one');
         let order = await orderRepo.findOne({ where: { userId, status: 'on_cart' } });
         if (!order) throw new NotFound('Order not found');
-        let product = await productRepo.findOne({ id: productId });
+        let product = await productRepo.findOne({ where: { id: productId } });
         if (!product) throw new NotFound('Product not found');
         let orderLine = {
             order,
@@ -78,10 +75,10 @@ export const addProductToCart = async (userId: number, productId: number, quanti
             pricePerUnit: product.price,
             totalPrice: product.price * quantity
         };
-        const savedOrderLine = await createOrderLine(orderLine)
+        const savedOrderLine = await createOrderLine(orderLine);
         order.total += savedOrderLine.totalPrice;
         order.orderLines.push(savedOrderLine);
-        return await Order.save(order);
+        return await orderRepo.update(order);
     } catch (err) {
         throw err;
     };
@@ -89,13 +86,13 @@ export const addProductToCart = async (userId: number, productId: number, quanti
 
 export const deleteProductFromCart = async (userId: number, orderLineId: number) => {
     try {
-        const orderLine = await OrderLine.findOne({ where: { id: orderLineId } });
+        const orderLine = await orderLineRepo.findOne({ where: { id: orderLineId } });
         if (!orderLine) throw new NotFound('OrderLine not found');
-        await OrderLine.delete(orderLineId);
-        let order = await Order.findOne({ where: { userId, status: 'on_cart' } });
+        await orderLineRepo.deleteById(orderLineId);
+        let order = await orderRepo.findOne({ where: { userId, status: 'on_cart' } });
         if (!order) throw new NotFound('Order not found');
         order.total -= orderLine?.totalPrice
-        return await Order.save(order);
+        return await orderRepo.update(order);
     } catch (err) {
         throw err;
     };
@@ -104,17 +101,17 @@ export const deleteProductFromCart = async (userId: number, orderLineId: number)
 export const updateProductFromCart = async (userId: number, orderLineId: number, quantity: number) => {
     try {
         if (!(quantity >= 1)) throw new BadRequest('Quantity must be greater than one');
-        const orderLine = await OrderLine.findOne({ where: { id: orderLineId } });
+        const orderLine = await orderLineRepo.findOne({ where: { id: orderLineId } });
         if (!orderLine) throw new NotFound('OrderLine not found');
         let oldOrderLineTotalPrice = orderLine.totalPrice;
         orderLine.totalPrice = quantity * orderLine.pricePerUnit;
         orderLine.quantity = quantity;
-        const updatedOrderLine = await OrderLine.save(orderLine);
-        let order = await Order.findOne({ where: { userId, status: 'on_cart' } });
+        const updatedOrderLine = await orderLineRepo.update(orderLine);
+        let order = await orderRepo.findOne({ where: { userId, status: 'on_cart' } });
         if (!order) throw new NotFound('Order not found');
         order.total -= oldOrderLineTotalPrice;
         order.total += updatedOrderLine.totalPrice;
-        return await Order.save(order);
+        return await orderRepo.update(order);
     } catch (err) {
         throw err;
     };
@@ -122,21 +119,21 @@ export const updateProductFromCart = async (userId: number, orderLineId: number,
 
 export const getEmptyCart = async (userId: number) => {
     try {
-        let order = await Order.findOne({ where: { userId, status: 'on_cart' } });
+        let order = await orderRepo.findOne({ where: { userId, status: 'on_cart' } });
         if (!order) throw new NotFound('Order not found');
-        await Promise.all(order.orderLines.map(async orderLine => await OrderLine.delete(orderLine.id)));
+        await Promise.all(order.orderLines.map(async orderLine => await orderLineRepo.deleteById(orderLine.id)));
         order.total = 0;
         order.orderLines = [];
-        return await Order.save(order);
+        return await orderRepo.update(order);
     } catch (err) {
         throw err;
     };
 };
 
 export const getUserOrders = async (userId: number) => {
-    return await Order.find({ where: { userId } });
+    return await orderRepo.find({ where: { userId } });
 };
 
 export const getUserOrder = async (userId: number, orderId: number) => {
-    return await Order.find({ where: { userId, id: orderId } });
+    return await orderRepo.findOne({ where: { userId, id: orderId } });
 };
