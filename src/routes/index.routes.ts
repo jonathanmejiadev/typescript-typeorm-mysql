@@ -8,7 +8,8 @@ import { AuthGuard, AuthErrorHandler, isModerator } from '../middlewares';
 
 const indexRouter = Router();
 
-indexRouter.use('/auth', authRouter);
+// Routes
+indexRouter.use('/', authRouter);
 indexRouter.use('/users', [AuthGuard, AuthErrorHandler], userRouter);
 indexRouter.use('/products', productRouter);
 indexRouter.use('/orders', [AuthGuard, AuthErrorHandler, isModerator], orderRouter);

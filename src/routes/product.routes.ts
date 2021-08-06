@@ -4,187 +4,19 @@ import { isAdmin, isModerator, productValidationMw, AuthGuard, AuthErrorHandler 
 
 const productRouter = Router();
 
-productRouter.post('/:productId/categories/:categoryId', [AuthGuard, AuthErrorHandler, isModerator], productCtrl.addToCategory);
-productRouter.delete('/:productId/categories/:categoryId', [AuthGuard, AuthErrorHandler, isModerator], productCtrl.deleteCategoryFromProduct);
+// Product categories routes
+productRouter.post('/:productId/:categoryId', [AuthGuard, AuthErrorHandler, isModerator], productCtrl.addToCategory);
+productRouter.delete('/:productId/:categoryId', [AuthGuard, AuthErrorHandler, isModerator], productCtrl.deleteCategoryFromProduct);
 
-productRouter.post('/:productId/reviews', [AuthGuard, AuthErrorHandler], productCtrl.createReviewAndAddToProduct);
-
+// Review routes
+productRouter.post('/reviews/:productId', [AuthGuard, AuthErrorHandler], productCtrl.createReviewAndAddToProduct);
 productRouter.delete('/reviews/:id', [AuthGuard, AuthErrorHandler, isModerator], productCtrl.deleteReview);
 
-/**
- * @swagger
- * tags:
- *   name: Products
- *   description: Products CRUD
- */
-
-
-
-/**
- * @swagger
- * /products/all:
- *  get:
- *      tags: [Products]
- *      summary: All products
- *      produces:
- *          - "application/json"
- *      description: Use to get all products from all users (needs to be authenticated)
- *      parameters:
- *           - in: header
- *             name: Authorization
- *             type: string
- *             description: Bearer + Access Token 
- *             required: true
- *      responses:
- *          '200':
- *              description: OK.
- *          '401':
- *              description: Unauthorized.
- *          '500':
- *              description: Server internal error.
- */
+// Product routes
 productRouter.get('/', productCtrl.allProducts);
-
-/**
- * @swagger
- * /products:
- *  post:
- *      tags: [Products]
- *      summary: Create product
- *      produces:
- *          - "application/json"
- *      description: Use to create a product (needs to be authenticated)
- *      parameters: 
- *          - in: header
- *            name: Authorization
- *            type: string
- *            description: Bearer + Access Token   
- *            required: true
- *          - in: body
- *            name: product
- *            schema:
- *              $ref: '#/definitions/Product'
- *      responses:
- *          '201':
- *              description: Created.
- *          '422':
- *              description: Unprocessable Entity, didn't pass the product validation.
- *          '500':
- *              description: Server internal error.
- */
 productRouter.post('/', [AuthGuard, AuthErrorHandler, isModerator, productValidationMw], productCtrl.createProduct);
-
-/**
- * @swagger
- * /products/{productId}:
- *  get:
- *      tags: [Products]
- *      summary: Get product by id
- *      produces:
- *          - "application/json"
- *      description: Use to get a single product by id (needs to be authenticated)
- *      parameters: 
- *          - in: path
- *            name: productId
- *            required: true
- *            type: string
- *          - in: header
- *            name: Authorization
- *            type: string
- *            description: Bearer + Access Token   
- *            required: true
- *      responses:
- *          '200':
- *              description: OK.
- *          '404':
- *              description: Not found.
- *          '500':
- *              description: Server internal error.
- */
 productRouter.get('/:id', productCtrl.getProduct);
-
-/**
- * @swagger
- * /products/{productId}:
- *  put:
- *      tags: [Products]
- *      summary: Update product by id
- *      produces:
- *          - "application/json"
- *      description: Use to update a product by id (needs to be authenticated)
- *      parameters: 
- *          - in: path
- *            name: productId
- *            required: true
- *            type: string
- *          - in: header
- *            name: Authorization
- *            type: string
- *            description: Bearer + Access Token
- *            required: true
- *          - in: body
- *            name: product
- *            schema:
- *              $ref: '#/definitions/Product'
- *      responses:
- *          '200':
- *              description: OK.
- *          '404':
- *              description: Not found.
- *          '500':
- *              description: Server internal error.
- */
 productRouter.put('/:id', [AuthGuard, AuthErrorHandler, isModerator, productValidationMw], productCtrl.updateProduct);
-
-/**
- * @swagger
- * /products/{productId}:
- *  delete:
- *      tags: [Products]
- *      summary: Delete product by id
- *      produces:
- *          - "application/json"
- *      description: Use to delete a product by id (needs to be authenticated)
- *      parameters: 
- *          - in: path
- *            name: productId
- *            required: true
- *            type: string
- *          - in: header
- *            name: Authorization
- *            type: string
- *            description: Bearer + Access Token 
- *            required: true
- *      responses:
- *          '200':
- *              description: OK.
- *          '404':
- *              description: Not found.
- *          '500':
- *              description: Server internal error.
- */
 productRouter.delete('/:id', [AuthGuard, AuthErrorHandler, isAdmin], productCtrl.deleteProduct);
-
-
-//Definitions (Models)
-
-/**
- * @swagger
- * definitions:
- *  Product:
- *   properties:
- *     name:
- *       type: string
- *     stock:
- *       type: integer
- *       minimum: 1
- *   example:
- *     name: fake product
- *     stock: 10  
- *   # Both properties are required
- *   required:  
- *     - name
- *     - stock
- */
 
 export default productRouter;

@@ -3,72 +3,20 @@ import * as userCtrl from '../controllers/user.controller';
 
 const userRouter = Router();
 
-/**
- * @swagger
- * tags:
- *   name: User
- *   description: User Enpoints
- */
-
-/**
- * @swagger
- * /user:
- *  get:
- *      tags: [User]
- *      summary: User profile
- *      produces:
- *          - "application/json"
- *      description: Use to get current user profile (needs to be authenticated)
- *      parameters:
- *           - in: header
- *             name: Authorization
- *             type: string
- *             description: Bearer + Access Token 
- *             required: true
- *      responses:
- *          '200':
- *              description: OK.
- *          '401':
- *              description: Unauthorized.
- *          '500':
- *              description: Server internal error.
- */
+//Account routes
 userRouter.get('/', userCtrl.profile);
-
-/**
- * @swagger
- * /user:
- *  delete:
- *      tags: [User]
- *      summary: Delete user account
- *      produces:
- *          - "application/json"
- *      description: Use to delete current user account (needs to be authenticated)
- *      parameters:
- *           - in: header
- *             name: Authorization
- *             type: string
- *             description: Bearer + Access Token  
- *             required: true      
- *      responses:
- *          '200':
- *              description: OK.
- *          '500':
- *              description: Server internal error.
- */
 userRouter.delete('/', userCtrl.deleteAccount);
-
 userRouter.put('/deposit', userCtrl.deposit);
 
+//Cart routes
 userRouter.post('/cart', userCtrl.createCart);
-
 userRouter.get('/cart', userCtrl.getCart);
 userRouter.delete('/cart', userCtrl.getEmptyCart);
-
 userRouter.post('/cart/:productId', userCtrl.addProductToCart);
 userRouter.delete('/cart/:orderLineId', userCtrl.deleteProductFromCart);
 userRouter.put('/cart/:orderLineId', userCtrl.updateProductFromCart);
 
+//Order routes
 userRouter.get('/orders', userCtrl.getUserOrders);
 userRouter.get('/orders/:id', userCtrl.getUserOrder);
 
