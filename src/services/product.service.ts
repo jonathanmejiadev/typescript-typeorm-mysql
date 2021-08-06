@@ -6,27 +6,26 @@ import Category from '../entity/Category';
 import Product from '../entity/Product';
 import Review from '../entity/Review';
 import User from '../entity/User';
+import * as categoryRepo from '../repositories/category.repository';
+import * as reviewRepo from '../repositories/review.repository';
 
 
 
 export const save = async (product: IProductInput) => {
-    //return await productRepo.create(product);
-    const createdProduct = Product.create(product);
-    createdProduct.reviews = [];
-    createdProduct.categories = [];
-    return await Product.save(createdProduct)
+    try {
+        return productRepo.save(product);
+    } catch (err) {
+        throw err;
+    }
 };
 
 export const getAllProducts = async (search: string) => {
-    return await productRepo.getAll(search);
+    return await productRepo.findAllWithSearch(search);
 };
 
 export const get = async (productId: number) => {
     try {
-        const product = await Product.find({
-            where: { id: productId },
-            relations: ['categories', 'reviews']
-        });
+        const product = await productRepo.findById(productId);
         if (!product) throw new NotFound('Product not found');
         return product;
     } catch (err) {
@@ -37,9 +36,11 @@ export const get = async (productId: number) => {
 export const update = async (productId: number, updateData: IProduct) => {
     try {
         const { name, stock } = updateData;
-        const product = await productRepo.getById(productId);
+        const product = await productRepo.findById(productId);
         if (!product) throw new NotFound('Product not found');
-        return await productRepo.update(product, { name, stock });
+        if (name) product.name = name;
+        if (stock) product.stock = stock;
+        return await productRepo.update(product);
     } catch (err) {
         throw err;
     }
@@ -47,7 +48,7 @@ export const update = async (productId: number, updateData: IProduct) => {
 
 export const remove = async (productId: number) => {
     try {
-        const product = await productRepo.remove(productId);
+        const product = await productRepo.deleteById(productId);
         if (!product.affected) throw new NotFound('Product not found');
         return;
     } catch (err) {
@@ -58,16 +59,13 @@ export const remove = async (productId: number) => {
 export const addToCategory = async (productId: number, categoryId: number) => {
     try {
         const [product, category] = await Promise.all([
-            await Product.findOne({
-                where: { id: productId },
-                relations: ['categories']
-            }),
-            await Category.findOne({ where: { id: categoryId } })
+            await productRepo.findById(productId),
+            await categoryRepo.findById(categoryId)
         ]);
         if (!product) throw new NotFound('Product not found');
         if (!category) throw new NotFound('Category not found');
         product.categories.push(category);
-        return await Product.save(product);
+        return await productRepo.update(product);
     } catch (err) {
         throw err;
     };
@@ -75,22 +73,10 @@ export const addToCategory = async (productId: number, categoryId: number) => {
 
 export const deleteCategoryFromProduct = async (productId: number, categoryId: number) => {
     try {
-        let product = await Product.findOne({
-            where: { id: productId },
-            relations: ['categories']
-        });
+        let product = await productRepo.findById(productId);
         if (!product) throw new NotFound('Product not found');
         product.categories = product.categories.filter(category => category.id !== categoryId);
-        return await Product.save(product);
-    } catch (err) {
-        throw err;
-    };
-};
-
-export const createReview = async (review: IReviewInput) => {
-    try {
-        const createdReview = Review.create(review);
-        return await Review.save(createdReview);
+        return await productRepo.update(product);
     } catch (err) {
         throw err;
     };
@@ -99,18 +85,15 @@ export const createReview = async (review: IReviewInput) => {
 export const AddReviewToProduct = async (productId: number, review: IReviewInput, userId: number) => {
     try {
         const [product, user] = await Promise.all([
-            await Product.findOne({
-                where: { id: productId },
-                relations: ['reviews']
-            }),
+            await productRepo.findById(productId),
             await User.findOne({ where: { id: userId } })
         ]);
         if (!product) throw new NotFound('Product not found');
         if (!user) throw new NotFound('User not found');
         review.username = user.username;
-        const savedReview = await createReview(review);
+        const savedReview = await reviewRepo.save(review);
         product.reviews.push(savedReview);
-        return await Product.save(product);
+        return await productRepo.update(product);
     } catch (err) {
         throw err;
     };
@@ -118,7 +101,7 @@ export const AddReviewToProduct = async (productId: number, review: IReviewInput
 
 export const deleteReview = async (reviewId: number) => {
     try {
-        const deletedReview = await Review.delete(reviewId);
+        const deletedReview = await reviewRepo.deleteById(reviewId);
         if (!deletedReview.affected) throw new NotFound('Category not found');
         return deletedReview;
     } catch (err) {
