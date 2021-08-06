@@ -10,7 +10,7 @@ export const findById = async (userId: number) => {
     return await User.findOne({ where: { id: userId } });
 };
 
-export const findOne = async (query: object) => {
+export const findOne = async (query: object = {}) => {
     return await User.findOne(query);
 }
 
