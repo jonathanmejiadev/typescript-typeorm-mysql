@@ -1,12 +1,15 @@
+import Review from '../entity/Review';
+import Category from '../entity/Category';
+
 export interface IProduct {
     id?: number;
     name?: string;
     stock?: number;
     description?: string;
     price?: number;
-    images?: [];
-    reviews?: [];
-    categories?: [];
+    images?: string[];
+    reviews?: Review[];
+    categories?: Category[];
 };
 
 export interface IProductInput {
@@ -14,5 +17,5 @@ export interface IProductInput {
     description: string;
     stock: number;
     price: number;
-    images: [];
+    images: string[];
 };
