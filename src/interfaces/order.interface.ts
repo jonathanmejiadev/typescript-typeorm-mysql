@@ -7,3 +7,9 @@ export interface IOrder {
     merchant_order_id: number,
     userId: number,
 };
+
+export interface IOrderInput {
+    total: number,
+    status: string,
+    userId: number,
+};

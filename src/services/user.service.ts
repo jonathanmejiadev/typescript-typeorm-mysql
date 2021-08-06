@@ -1,11 +1,10 @@
 import * as userRepo from '../repositories/user.repository';
 import { NotFound, BadRequest } from '@curveball/http-errors';
-import { IUser } from '../interfaces/user.interface';
 import Order from '../entity/Order';
-import User from '../entity/User'
 import Product from '../entity/Product';
 import OrderLine from '../entity/OrderLine';
 import { IOrderLineInput } from '../interfaces/orderLine.interface';
+import * as orderRepo from '../repositories/order.repository';
 
 export const profile = async (userId: number) => {
     const user = await userRepo.findOne({ where: { id: userId } });
@@ -32,11 +31,9 @@ export const findAll = async (query: object = {}) => {
 
 export const createCart = async (userId: number) => {
     try {
-        const order = await Order.findOne({ where: { userId, status: 'on_cart' } });
+        const order = await orderRepo.findOne({ where: { userId, status: 'on_cart' } });
         if (order) return order;
-        let createdOrder = Order.create({ userId, status: 'on_cart', total: 0 })
-        createdOrder.orderLines = [];
-        return await Order.save(createdOrder);
+        return await orderRepo.save({ userId, status: 'on_cart', total: 0 });
     } catch (err) {
         throw err;
     };
@@ -44,7 +41,7 @@ export const createCart = async (userId: number) => {
 
 export const getCart = async (userId: number) => {
     try {
-        return await Order.findOne({ where: { userId, status: 'on_cart' } });
+        return await orderRepo.findOne({ where: { userId, status: 'on_cart' } });
     } catch (err) {
         throw err;
     };

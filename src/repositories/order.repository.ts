@@ -1,7 +1,7 @@
 import Order from '../entity/Order';
-import { IOrder } from '../interfaces/order.interface';
+import { IOrderInput } from '../interfaces/order.interface';
 
-export const save = async (order: IOrder) => {
+export const save = async (order: IOrderInput) => {
     const createdCategory = Order.create(order);
     return await Order.save(createdCategory);
 };
@@ -10,12 +10,12 @@ export const findById = async (orderId: number) => {
     return await Order.findOne({ where: { id: orderId } });
 };
 
-export const find = async (query: object) => {
-    return await Order.find(query);
-};
+export const findOne = async (query: object) => {
+    return await Order.findOne(query);
+}
 
-export const findAll = async () => {
-    return await Order.find();
+export const find = async (query: object = {}) => {
+    return await Order.find(query);
 };
 
 export const deleteById = async (orderId: number) => {
