@@ -2,16 +2,13 @@ import * as productRepo from '../repositories/product.repository';
 import { IProduct, IProductInput } from '../interfaces/product.interface';
 import { IReviewInput } from '../interfaces/review.interface';
 import { NotFound } from '@curveball/http-errors';
-import Category from '../entity/Category';
-import Product from '../entity/Product';
-import Review from '../entity/Review';
 import User from '../entity/User';
 import * as categoryRepo from '../repositories/category.repository';
 import * as reviewRepo from '../repositories/review.repository';
 
 
 
-export const save = async (product: IProductInput) => {
+export const createProduct = async (product: IProductInput) => {
     try {
         return productRepo.save(product);
     } catch (err) {
@@ -19,11 +16,11 @@ export const save = async (product: IProductInput) => {
     }
 };
 
-export const getAllProducts = async (search: string) => {
+export const getProducts = async (search: string) => {
     return await productRepo.findAllWithSearch(search);
 };
 
-export const get = async (productId: number) => {
+export const getProduct = async (productId: number) => {
     try {
         const product = await productRepo.findById(productId);
         if (!product) throw new NotFound('Product not found');
@@ -33,7 +30,7 @@ export const get = async (productId: number) => {
     };
 };
 
-export const update = async (productId: number, updateData: IProduct) => {
+export const updateProduct = async (productId: number, updateData: IProduct) => {
     try {
         const { name, stock } = updateData;
         const product = await productRepo.findById(productId);
@@ -46,7 +43,7 @@ export const update = async (productId: number, updateData: IProduct) => {
     }
 };
 
-export const remove = async (productId: number) => {
+export const deleteProduct = async (productId: number) => {
     try {
         const product = await productRepo.deleteById(productId);
         if (!product.affected) throw new NotFound('Product not found');

@@ -5,7 +5,7 @@ import * as productService from '../services/product.service';
 export const createProduct = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const newProduct: IProductInput = { ...req.body };
-        const savedProduct = await productService.save(newProduct);
+        const savedProduct = await productService.createProduct(newProduct);
         return res.status(201).json({ success: 'true', message: 'Product has been saved', data: savedProduct });
     }
     catch (err) {
@@ -17,7 +17,7 @@ export const allProducts = async (req: Request, res: Response, next: NextFunctio
     try {
         let { search } = req.query;
         if (!search) search = '';
-        const products = await productService.getAllProducts(search.toString());
+        const products = await productService.getProducts(search.toString());
         return res.status(200).json({ success: true, data: products });
     } catch (err) {
         next(err);
@@ -27,7 +27,7 @@ export const allProducts = async (req: Request, res: Response, next: NextFunctio
 export const getProduct = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const productId = req.params.id;
-        const product = await productService.get(Number(productId));
+        const product = await productService.getProduct(Number(productId));
         return res.status(200).json({ success: true, data: product });
     } catch (err) {
         next(err);
@@ -38,7 +38,7 @@ export const updateProduct = async (req: Request, res: Response, next: NextFunct
     try {
         const productId = req.params.id;
         const { name, stock } = req.body;
-        const updatedProduct = await productService.update(Number(productId), { name, stock });
+        const updatedProduct = await productService.updateProduct(Number(productId), { name, stock });
         return res.status(200).json({ success: true, message: 'Product has been updated', data: updatedProduct });
     } catch (err) {
         next(err);
@@ -48,7 +48,7 @@ export const updateProduct = async (req: Request, res: Response, next: NextFunct
 export const deleteProduct = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const productId = req.params.id;
-        await productService.remove(Number(productId));
+        await productService.deleteProduct(Number(productId));
         return res.status(200).json({ success: true, message: 'Product has been deleted' });
     } catch (err) {
         next(err);
