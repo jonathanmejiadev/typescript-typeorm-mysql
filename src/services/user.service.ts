@@ -5,7 +5,7 @@ import * as orderRepo from '../repositories/order.repository';
 import * as orderLineRepo from '../repositories/orderLine.repository';
 import * as productRepo from '../repositories/product.repository';
 
-export const profile = async (userId: number) => {
+export const getProfile = async (userId: number) => {
     const user = await userRepo.findOne({ where: { id: userId } });
     if (!user) throw new NotFound('User not found');
     return user;

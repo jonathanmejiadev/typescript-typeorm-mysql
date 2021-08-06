@@ -4,7 +4,7 @@ import * as userService from '../services/user.service';
 export const profile = async (req: Request, res: Response, next: NextFunction) => {
     const userId = req.user;
     try {
-        const user = await userService.profile(userId)
+        const user = await userService.getProfile(userId)
         return res.status(200).json({
             success: true,
             data: user
