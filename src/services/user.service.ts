@@ -5,6 +5,8 @@ import Product from '../entity/Product';
 import OrderLine from '../entity/OrderLine';
 import { IOrderLineInput } from '../interfaces/orderLine.interface';
 import * as orderRepo from '../repositories/order.repository';
+import * as orderLineRepo from '../repositories/orderLine.repository';
+import * as productRepo from '../repositories/product.repository';
 
 export const profile = async (userId: number) => {
     const user = await userRepo.findOne({ where: { id: userId } });
@@ -49,25 +51,25 @@ export const getCart = async (userId: number) => {
 
 export const createOrderLine = async ({ order, productId, quantity, pricePerUnit, totalPrice }: IOrderLineInput) => {
     try {
-        let createdOrderLine = OrderLine.create({
+        let newOrderLine = {
             order,
             productId,
             quantity,
             pricePerUnit,
             totalPrice
-        });
-        return await OrderLine.save(createdOrderLine);
+        };
+        return await orderLineRepo.save(newOrderLine);
     } catch (err) {
         throw err;
-    }
+    };
 };
 
 export const addProductToCart = async (userId: number, productId: number, quantity: number) => {
     try {
         if (!(quantity >= 1)) throw new BadRequest('Quantity must be greater than one');
-        let order = await Order.findOne({ where: { userId, status: 'on_cart' } });
+        let order = await orderRepo.findOne({ where: { userId, status: 'on_cart' } });
         if (!order) throw new NotFound('Order not found');
-        let product = await Product.findOne({ id: productId });
+        let product = await productRepo.findOne({ id: productId });
         if (!product) throw new NotFound('Product not found');
         let orderLine = {
             order,

@@ -13,6 +13,10 @@ export const findById = async (productId: number) => {
     });
 };
 
+export const findOne = async (query: object) => {
+    return await Product.findOne(query);
+};
+
 export const update = async (product: Product) => {
     return await Product.save(product);
 };
