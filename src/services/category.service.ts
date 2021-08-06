@@ -1,11 +1,10 @@
-import Category from '../entity/Category';
 import { ICategoryInput } from '../interfaces/category.interface';
 import { NotFound } from '@curveball/http-errors';
+import * as categoryRepo from '../repositories/category.repository';
 
 export const createCategory = async (category: ICategoryInput) => {
     try {
-        const createdCategory = Category.create(category)
-        return await Category.save(createdCategory)
+        return categoryRepo.save(category);
     } catch (err) {
         throw err;
     };
@@ -13,7 +12,7 @@ export const createCategory = async (category: ICategoryInput) => {
 
 export const deleteCategory = async (categoryId: number) => {
     try {
-        const deletedCategory = await Category.delete(categoryId);
+        const deletedCategory = await categoryRepo.deleteById(categoryId);
         if (!deletedCategory.affected) throw new NotFound('Category not found');
         return deletedCategory;
     } catch (err) {
@@ -23,7 +22,7 @@ export const deleteCategory = async (categoryId: number) => {
 
 export const getCategories = async () => {
     try {
-        return await Category.find();
+        return await categoryRepo.findAll();
     } catch (err) {
         throw err;
     };
@@ -31,7 +30,7 @@ export const getCategories = async () => {
 
 export const getCategory = async (categoryId: number) => {
     try {
-        return await Category.find({ where: { id: categoryId }, relations: ['products'] });
+        return await categoryRepo.findById(categoryId);
     } catch (err) {
         throw err;
     };
