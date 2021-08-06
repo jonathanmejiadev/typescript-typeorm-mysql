@@ -8,10 +8,6 @@ const productRouter = Router();
 productRouter.post('/:productId/:categoryId', [AuthGuard, AuthErrorHandler, isModerator], productCtrl.addToCategory);
 productRouter.delete('/:productId/:categoryId', [AuthGuard, AuthErrorHandler, isModerator], productCtrl.deleteCategoryFromProduct);
 
-// Review routes
-productRouter.post('/reviews/:productId', [AuthGuard, AuthErrorHandler], productCtrl.createReviewAndAddToProduct);
-productRouter.delete('/reviews/:id', [AuthGuard, AuthErrorHandler, isModerator], productCtrl.deleteReview);
-
 // Product routes
 productRouter.get('/', productCtrl.allProducts);
 productRouter.post('/', [AuthGuard, AuthErrorHandler, isModerator, productValidationMw], productCtrl.createProduct);
