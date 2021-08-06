@@ -1,4 +1,4 @@
-import { Column, PrimaryGeneratedColumn, BaseEntity, Entity, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
+import { Column, PrimaryGeneratedColumn, BaseEntity, Entity, ManyToOne, JoinColumn, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import User from './User';
 import OrderLine from './OrderLine';
 
@@ -18,6 +18,12 @@ export default class OrderEntity extends BaseEntity {
         nullable: false
     })
     status: string;
+
+    @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
+    created_at: Date;
+
+    @UpdateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)", onUpdate: "CURRENT_TIMESTAMP(6)" })
+    updated_at: Date;
 
     @Column({
         default: 0
