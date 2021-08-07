@@ -1,22 +1,22 @@
 import { Router } from 'express';
 import { Request, Response, NextFunction } from 'express';
-import mercadopago from 'mercadopago';
+import config from '../config'; import mercadopago from 'mercadopago';
 import * as orderRepo from '../repositories/order.repository';
 import { NotFound } from '@curveball/http-errors/dist';
 import Axios from 'axios';
 
 const mercadoPagoRouter = Router();
 
-const { MP_ACCESS_TOKEN } = process.env;
+const { MP_ACCESS_TOKEN } = config;
 
 mercadopago.configure({
-    access_token: 'ENV_ACCESS_TOKEN' // mp access token
+    access_token: MP_ACCESS_TOKEN || 'mp_access_token'
 });
 
 // MercadoPago Url Generate
-mercadoPagoRouter.post('/:orderId', async (req: Request, res: Response, next: NextFunction) => {
+mercadoPagoRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { orderId } = req.params;
+        const { orderId } = req.body;
 
         const cart = await orderRepo.findOne({ where: { id: orderId }, relations: ['orderLines'] });
         if (!cart) throw new NotFound('Order not found')
@@ -56,7 +56,7 @@ mercadoPagoRouter.post('/:orderId', async (req: Request, res: Response, next: Ne
     };
 });
 
-//
+// Update order with MercadoPago payment status
 mercadoPagoRouter.get('/payments', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const payment_id = req.query.payment_id;
@@ -69,7 +69,7 @@ mercadoPagoRouter.get('/payments', async (req: Request, res: Response, next: Nex
         if (!order) throw new NotFound('Order not found');
         order.payment_id = Number(payment_id);
         order.payment_status = payment_status?.toString() || '';
-        order.merchant_order_id = Number(merchant_order_id)
+        order.merchant_order_id = Number(merchant_order_id);
         order.status = 'completed';
 
         await orderRepo.save(order);
