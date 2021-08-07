@@ -8,7 +8,14 @@ export default class OrderEntity extends BaseEntity {
     id: number;
 
     @Column({
-        scale: 2
+        type: 'decimal', precision: 10, scale: 2, nullable: false, transformer: {
+            to(value) {
+                return value;
+            },
+            from(value) {
+                return parseFloat(value);
+            }
+        }
     })
     total: number;
 
