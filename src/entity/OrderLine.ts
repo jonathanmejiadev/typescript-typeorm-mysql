@@ -13,13 +13,26 @@ export default class OrderLineEntity extends BaseEntity {
     quantity: number;
 
     @Column({
-        scale: 2,
-        nullable: false
+        type: 'decimal', precision: 10, scale: 2, nullable: false, transformer: {
+            to(value) {
+                return value;
+            },
+            from(value) {
+                return parseFloat(value);
+            }
+        }
     })
     pricePerUnit: number;
 
     @Column({
-        nullable: false
+        type: 'decimal', precision: 10, scale: 2, nullable: false, transformer: {
+            to(value) {
+                return value;
+            },
+            from(value) {
+                return parseFloat(value);
+            }
+        }
     })
     totalPrice: number;
 
