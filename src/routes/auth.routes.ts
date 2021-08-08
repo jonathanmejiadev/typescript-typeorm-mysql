@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { checkRoles, checkUsernameEmailExists, userValidationMw, isAdmin } from '../middlewares';
+import { checkRoles, checkUsernameEmailExists, userValidationMw, isAdmin, AuthGuard, AuthErrorHandler } from '../middlewares';
 import * as authCtrl from '../controllers/auth.controller';
 
 const authRouter = Router();
@@ -8,6 +8,7 @@ const authRouter = Router();
 authRouter.post('/register', [userValidationMw, checkUsernameEmailExists, checkRoles], authCtrl.register);
 authRouter.post('/login', authCtrl.login);
 authRouter.get('/confirmation/:confirmCode', authCtrl.confirmEmail);
-authRouter.put('/promote/:userId', isAdmin, authCtrl.promoteUser);
+authRouter.put('/reset-password', [AuthGuard, AuthErrorHandler], authCtrl.resetPassword)
+authRouter.put('/promote/:userId', [AuthGuard, AuthErrorHandler, isAdmin], authCtrl.promoteUser);
 
 export default authRouter;

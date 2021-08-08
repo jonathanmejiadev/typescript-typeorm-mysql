@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { IUserInput } from '../interfaces/user.interface';
+import { hashPassword } from '../libs/bcrypt';
 import * as authService from '../services/auth.service';
 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
@@ -38,6 +39,20 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
             message: 'Logged in successfully',
             access_token,
             token_type: 'Bearer'
+        });
+    } catch (err) {
+        next(err);
+    };
+};
+
+export const resetPassword = async (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.user;
+    const { password, newPassword } = req.body;
+    try {
+        await authService.resetPassword(Number(userId), password, newPassword);
+        return res.status(200).json({
+            success: true,
+            message: 'Password has been updated'
         });
     } catch (err) {
         next(err);

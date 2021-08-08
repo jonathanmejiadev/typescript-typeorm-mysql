@@ -1,5 +1,5 @@
 import * as userRepo from '../repositories/user.repository';
-import { IUser, IUserInput } from '../interfaces/user.interface';
+import { IUserInput } from '../interfaces/user.interface';
 import { hashPassword, validatePassword } from '../libs/bcrypt';
 import { provideToken, verifyToken } from '../libs/jwt';
 import { sendConfirmationEmail } from '../libs/nodemailer';
@@ -34,12 +34,25 @@ export const confirmEmail = async (confirmCode: string) => {
 export const login = async (username: string, password: string) => {
     try {
         const user = await userRepo.findOne({ where: { username } });
-        if (!user) throw new Unauthorized('Incorrect username');
+        if (!user) throw new Unauthorized('Incorrect username or password');
         if (!user.confirmed) throw new Unauthorized('Please confirm your account');
         const passwordMatch = await validatePassword(password, user.password);
-        if (!passwordMatch) throw new Unauthorized('Incorrect password');
+        if (!passwordMatch) throw new Unauthorized('Incorrect username or password');
         const access_token = provideToken(user.id);
         return access_token;
+    } catch (err) {
+        throw err;
+    };
+};
+
+export const resetPassword = async (userId: number, password: string, newPassword: string) => {
+    try {
+        const user = await userRepo.findById(userId);
+        if (!user) throw new Unauthorized('Incorrect username or password');
+        const passwordMatch = await validatePassword(password, user.password);
+        if (!passwordMatch) throw new Unauthorized('Incorrect username or password');
+        user.password = await hashPassword(newPassword);
+        return await userRepo.update(user);
     } catch (err) {
         throw err;
     };
