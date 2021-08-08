@@ -55,14 +55,3 @@ export const promoteUser = async (userId: number, role: string) => {
         throw err;
     };
 };
-
-export const degradeUser = async (userId: number) => {
-    try {
-        let user = await userRepo.findById(userId);
-        if (!user) throw new NotFound('User not found');
-        user.role = 'USER';
-        return await userRepo.update(user);
-    } catch (err) {
-        throw err;
-    };
-};

@@ -43,3 +43,17 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
         next(err);
     };
 };
+
+export const promoteUser = async (req: Request, res: Response, next: NextFunction) => {
+    const { userId } = req.params;
+    const { role } = req.body;
+    try {
+        const user = await authService.promoteUser(Number(userId), role);
+        return res.status(200).json({
+            success: true,
+            data: user
+        });
+    } catch (err) {
+        next(err);
+    };
+};
