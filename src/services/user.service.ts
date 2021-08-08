@@ -121,7 +121,7 @@ export const getEmptyCart = async (userId: number) => {
     try {
         let order = await orderRepo.findOne({ where: { userId, status: 'on_cart' } });
         if (!order) throw new NotFound('Order not found');
-        await Promise.all(order.orderLines.map(async orderLine => await orderLineRepo.deleteById(orderLine.id)));
+        await Promise.all(order.orderLines.map(async orderLine => orderLineRepo.deleteById(orderLine.id)));
         order.total = 0;
         order.orderLines = [];
         return await orderRepo.update(order);
