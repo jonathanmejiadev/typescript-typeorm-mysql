@@ -50,8 +50,12 @@ export default class UserEntity extends BaseEntity {
     })
     confirmed: boolean;
 
-    @Column("simple-array")
-    roles: string[];
+    @Column({
+        type: "enum",
+        enum: ["USER", "MOD", "ADMIN"],
+        nullable: false
+    })
+    role: string;
 
     @OneToMany(() => Order, order => order.userId)
     orders: Order[];

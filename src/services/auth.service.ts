@@ -44,3 +44,25 @@ export const login = async (username: string, password: string) => {
         throw err;
     };
 };
+
+export const promoteUser = async (userId: number, role: string) => {
+    try {
+        let user = await userRepo.findById(userId);
+        if (!user) throw new NotFound('User not found');
+        user.role = role;
+        return await userRepo.update(user);
+    } catch (err) {
+        throw err;
+    };
+};
+
+export const degradeUser = async (userId: number) => {
+    try {
+        let user = await userRepo.findById(userId);
+        if (!user) throw new NotFound('User not found');
+        user.role = 'USER';
+        return await userRepo.update(user);
+    } catch (err) {
+        throw err;
+    };
+};

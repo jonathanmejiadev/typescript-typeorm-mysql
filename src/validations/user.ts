@@ -36,7 +36,6 @@ export const userValidation = Joi.object({
     avatar: Joi.string().allow(null),
     confirmed: Joi.boolean()
     ,
-    roles: Joi.array()
-        .items(Joi.string())
-
+    role: Joi.string()
+        .valid("USER", "MOD", "ADMIN")
 });
