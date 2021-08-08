@@ -2,8 +2,8 @@ import * as userRepo from '../repositories/user.repository';
 import { IUserInput } from '../interfaces/user.interface';
 import { hashPassword, validatePassword } from '../libs/bcrypt';
 import { provideToken, verifyToken } from '../libs/jwt';
-import { sendConfirmationEmail } from '../libs/nodemailer';
-import { Unauthorized, NotFound } from '@curveball/http-errors';
+import { sendConfirmationEmail, sendConfirmResetPassword, sendResetPasswordToken } from '../libs/nodemailer';
+import { Unauthorized, NotFound, BadRequest } from '@curveball/http-errors';
 
 export const register = async (user: IUserInput) => {
     try {
@@ -45,7 +45,7 @@ export const login = async (username: string, password: string) => {
     };
 };
 
-export const resetPassword = async (userId: number, password: string, newPassword: string) => {
+export const changePassword = async (userId: number, password: string, newPassword: string) => {
     try {
         const user = await userRepo.findById(userId);
         if (!user) throw new Unauthorized('Incorrect username or password');
@@ -53,6 +53,35 @@ export const resetPassword = async (userId: number, password: string, newPasswor
         if (!passwordMatch) throw new Unauthorized('Incorrect username or password');
         user.password = await hashPassword(newPassword);
         return await userRepo.update(user);
+    } catch (err) {
+        throw err;
+    };
+};
+
+export const resetPassword = async (email: string) => {
+    try {
+        if (!email) throw new BadRequest('Email is required');
+        const user = await userRepo.findOne({ where: { email } });
+        if (!user) throw new NotFound('User with that email not found');
+        const resetPasswordToken = provideToken(user.id);
+        sendResetPasswordToken(user.username, user.email, resetPasswordToken);
+        return resetPasswordToken;
+    } catch (err) {
+        throw err;
+    };
+};
+
+export const confirmResetPassword = async (passwordResetToken: string) => {
+    try {
+        const verifiedToken = verifyToken(passwordResetToken);
+        if (!verifiedToken) throw new Unauthorized('Invalid password reset token');
+        let user = await userRepo.findOne({ where: { id: verifiedToken.id } });
+        if (!user) throw new NotFound('User not found');
+        let newPassword = passwordResetToken.slice(passwordResetToken.length - 20, passwordResetToken.length);
+        user.password = await hashPassword(newPassword);
+        await userRepo.update(user);
+        sendConfirmResetPassword(user.username, user.email, newPassword);
+        return;
     } catch (err) {
         throw err;
     };
