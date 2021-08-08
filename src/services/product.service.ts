@@ -55,8 +55,8 @@ export const deleteProduct = async (productId: number) => {
 export const addToCategory = async (productId: number, categoryId: number) => {
     try {
         const [product, category] = await Promise.all([
-            await productRepo.findById(productId),
-            await categoryRepo.findById(categoryId)
+            productRepo.findById(productId),
+            categoryRepo.findById(categoryId)
         ]);
         if (!product) throw new NotFound('Product not found');
         if (!category) throw new NotFound('Category not found');
