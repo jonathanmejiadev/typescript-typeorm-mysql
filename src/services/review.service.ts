@@ -7,8 +7,8 @@ import * as userRepo from '../repositories/user.repository';
 export const createReview = async (productId: number, review: IReviewInput, userId: number) => {
     try {
         const [product, user] = await Promise.all([
-            await productRepo.findById(productId),
-            await userRepo.findById(userId)
+            productRepo.findById(productId),
+            userRepo.findById(userId)
         ]);
         if (!product) throw new NotFound('Product not found');
         if (!user) throw new NotFound('User not found');
