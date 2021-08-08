@@ -13,7 +13,7 @@ const transporter = nodemailer.createTransport({
 
 export const sendConfirmationEmail = async (email: string, confirmCode: string) => {
     try {
-        const url = `${config.DOMAIN}/auth/confirmation/${confirmCode}`;
+        const url = `${config.DOMAIN}/confirmation/${confirmCode}`;
         const emailSent = await transporter.sendMail({
             from: '"Market API 👻" <jonathanmejia.ar@gmail.com>',
             to: email,
